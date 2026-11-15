@@ -70,7 +70,7 @@ These are Lean's three standard axioms. The files contain no `sorry` (except the
 **Palomar preflight.** Palomar's mechanical check (build, Comparator on `Challenge.lean` against
 `Solution.lean`, permitted axioms, kernel replay) passed on commit `3d30266`
 ([run 43769921534](https://github.com/Arth-Singh/crossing-lower-bounds/actions/runs/43769921534)). The
-registry submission is pending.
+repository was submitted to the registry for this commit and is under review; it is not registered yet.
 
 **Why the files are long.** The body of `SmallValues.lean` is the dependency closure of 61 Lean files of the
 multi-agent run, concatenated unchanged (one `section` per file). `FifteenElevenths.lean` adds 17 more files

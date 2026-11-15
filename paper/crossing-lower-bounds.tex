@@ -51,7 +51,8 @@ is a sum of $r$ tensors of rank one along the partition $\{12\mid34\}$ and $s$ t
 $\{13\mid24\}$ only if $r+s\ge n^{1+\varepsilon}$. In matrix form, the least such $r+s$ is the least value
 of $\rk B+\rk\R(C)$ over all splittings $S_n=B+C$ of the swap matrix of $\F^n\otimes\F^n$, where $\R$ is the
 realignment. The only lower bound we found in the literature is the trivial bound $n$. We prove
-$r+s\ge 4n/3$ for $n\ge3$, $r+s\ge15n/11$ for $n\ge5$ and $r+s\ge n+3$ for $n\ge4$, over every field. The least value is $4$ at $n=3$ and
+$r+s\ge 4n/3$ for $n\ge3$, $r+s\ge15n/11$ for $n\ge5$, $r+s\ge67n/49$ for $n\ge7$ and $r+s\ge n+3$ for
+$n\ge4$, over every field. The least value is $4$ at $n=3$ and
 $7$ at $n=4$; at $n=4$, limits of splittings reach $6$. The proof of the bound $4n/3$ takes one page. The
 lower bounds and the value at $n=4$ are formalized in Lean~4 with Mathlib. The theorems and their formal proofs were found by AI agents
 in a multi-agent research harness.
@@ -484,8 +485,8 @@ theorem swap_split_four_eq_seven (F : Type*) [Field F] :
 
 \section{How the results were found}\label{sec:how}
 
-The results come from one run of an in-house harness in which about $20$ AI agents (Claude Opus~5.5,
-Anthropic) work as a small research organization. Agents hold roles (leads, workers, an advisor), set goals
+The results come from one run of an in-house harness in which about $20$ AI agents (Claude Opus~5.5 workers and a
+Claude Fable~5.2 lead, Anthropic) work as a small research organization. Agents hold roles (leads, workers, an advisor), set goals
 for each other, and share a library of Lean files. A statement counts as proved only after Lean accepts it,
 and a claim of novelty needs a literature search by the advisor. The run studied the decomposition of the
 crossing that is used in~\cite{Cla26}.
@@ -499,9 +500,11 @@ minutes, a third worker proved Theorem~\ref{thm:43}, with the excess lemma in ra
 system; another worker found the same constant independently, as a combination of $26$ inequalities found by
 a linear-programming search. The value $P_\F(5)\ge8$ followed after $19$ minutes, $P_\Q(4)=7$ after $24$
 minutes, $P_\F(4)=7$ over every field after $33$ minutes, and $P_\F(6)\ge9$, which completes
-Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. Theorem~\ref{thm:1511} followed after $62$ minutes, and $67n/49$ after $74$ minutes: one
-worker had found the constant $15/11$ by a linear-programming search, the advisor and a second worker made
-the certificate exact, and a third worker proved its $189$ inequalities in Lean. The earlier bounds are consequences of
+Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. In a second phase, aimed at
+superlinear bounds, the agents extended the slice argument to five and seven indices.
+Theorem~\ref{thm:1511} followed after $62$ minutes and the bound $67n/49$ after $74$ minutes. For each, one
+worker found the constant by a linear-programming search, other agents made the certificate exact, and
+others proved its inequalities in Lean. The earlier bounds are consequences of
 Theorem~\ref{thm:43} and are not included here. Another worker found the border splitting of
 Remark~\ref{rem:border}. The advisor agent refereed the proofs, checked the border splitting with exact
 arithmetic, and searched the literature for earlier bounds.
