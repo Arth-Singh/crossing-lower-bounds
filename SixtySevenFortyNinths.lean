@@ -1,4 +1,11 @@
-/-
+module
+
+public import Mathlib
+public import SwapSplit
+public import SmallValues
+public import FifteenElevenths
+
+/-!
 The bound P(N) ≥ 67 N / 49 for N ≥ 7, over every field.
 
 The body of this file is the part of the dependency closure of the library unit
@@ -8,10 +15,8 @@ is a certificate for seven slices, reduced by the symmetry of the slice indices 
 orbit sums, and one arithmetic lemma that combines them. The last section states the result with the
 definitions of SwapSplit.lean.
 -/
-import Mathlib
-import SwapSplit
-import SmallValues
-import FifteenElevenths
+
+@[expose] public section
 
 /-! ## unit T475_L7_orbit_certificate_core -/
 section

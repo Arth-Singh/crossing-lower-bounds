@@ -1,4 +1,9 @@
-/-
+module
+
+public import Mathlib
+public import SwapSplit
+
+/-!
 The values P(4) = 7, P(5) ≥ 8 and P(6) ≥ 9, and P(N) ≥ N + 3 for every N ≥ 4, over every field.
 
 The body of this file is the dependency closure of the library units P4_ge_seven_every_field,
@@ -8,8 +13,8 @@ dependency order without changes (one section per unit). The agents' names for t
 realignment are `biancaSwapF` and `biancaRealignF`; the last section states the results with the definitions of
 SwapSplit.lean and proves that the two pairs of definitions agree.
 -/
-import Mathlib
-import SwapSplit
+
+@[expose] public section
 
 /-! ## unit T381_lemmaK_rank_one_slice_form_and_dual -/
 section

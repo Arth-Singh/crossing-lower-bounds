@@ -412,7 +412,8 @@ $\eta_y=\col Y_y$ and $\omega_y=\col W_y$ of three or five indices: \eqref{eq:sp
 all subspaces. With $L$ indices in place of three, computer searches for the best combination of such
 inequalities give the constant $4/3$ again for $L=4$ and $15/11$ for $L=5$; the latter is
 Theorem~\ref{thm:1511}. A search by the agents and an independent search in the review of a draft agree on
-these values. Further computations by the agents suggest that the constants increase with $L$ to the limit
+these values. With $L=7$ the agents found and formalized the constant $67/49\approx1.367$, so
+$P_\F(n)\ge67n/49$ for $n\ge7$ (Section~\ref{sec:lean}). Further computations by the agents suggest that the constants increase with $L$ to the limit
 $1+1/e\approx1.37$; we have not checked this. No such
 combination reaches the constant $2$, by the following example from the same review. Let $L\ge3$ divide $n$,
 split $\F^n$ into $L$ blocks of dimension $n/L$, and put $r=(2-3/L)\,n$ and $s=n/L$. For $y\in[L]$ let
@@ -429,23 +430,27 @@ $O(n^{1.62})$~\cite[Theorem~12]{Hru24}.
 
 \section{Formal verification}\label{sec:lean}
 
-{\sloppy The repository \url{https://github.com/Arth-Singh/crossing-lower-bounds} contains three Lean files.
-They use Lean~4~\cite{Lean4} and Mathlib~\cite{Mathlib} only, and the repository pins Lean v4.33.1 and
-Mathlib v4.33.1 (commit 0df444a3). The file \texttt{SwapSplit.lean} ($298$ lines) defines the swap matrix and
-the realignment as above and proves Theorem~\ref{thm:43} as \texttt{SwapSplit.swap\_split\_ge\_four\_thirds},
-with the proof of Section~\ref{sec:43}. The file \texttt{SmallValues.lean} ($4\,917$ lines) proves
+{\sloppy The repository \url{https://github.com/Arth-Singh/crossing-lower-bounds} contains four Lean files
+with the proofs. They use Lean~4~\cite{Lean4} and Mathlib~\cite{Mathlib} only, and the repository pins Lean
+and Mathlib v4.35.0-rc2. The file \texttt{SwapSplit.lean} ($304$ lines) defines the swap matrix and the
+realignment as above and proves Theorem~\ref{thm:43} as \texttt{SwapSplit.swap\_split\_ge\_four\_thirds}, with
+the proof of Section~\ref{sec:43}. The file \texttt{SmallValues.lean} ($4\,922$ lines) proves
 Theorem~\ref{thm:n3} as \texttt{SwapSplit.swap\_split\_ge\_add\_three}, the value $P_\F(4)=7$, including the
 upper bound, as \texttt{SwapSplit.swap\_split\_four\_eq\_seven}, and $P_\F(5)\ge8$ and $P_\F(6)\ge9$. Its body
 is the dependency closure of $61$ files of the multi-agent run, unchanged, and its last section proves that
 the agents' definitions of the swap matrix and the realignment are those of \texttt{SwapSplit.lean}. The file
-\texttt{FifteenElevenths.lean} ($1\,756$ lines, with $17$ more files of the run) proves
-Theorem~\ref{thm:1511} as \texttt{SwapSplit.swap\_split\_ge\_fifteen\_elevenths}. Every
+\texttt{FifteenElevenths.lean} ($1\,761$ lines, with $17$ more files of the run) proves
+Theorem~\ref{thm:1511} as \texttt{SwapSplit.swap\_split\_ge\_fifteen\_elevenths}, and the file
+\texttt{SixtySevenFortyNinths.lean} ($1\,294$ lines, with $11$ more files) proves $67n\le49(r+s)$ for $n\ge7$
+as \texttt{SwapSplit.swap\_split\_ge\_sixtyseven\_fortyninths}. The files \texttt{Challenge.lean} and
+\texttt{Solution.lean} restate the seven results for a Comparator check: \texttt{Challenge.lean} has
+$88$ lines, imports one Mathlib module, and contains the two definitions and the seven statements. Every
 theorem named here depends only on the axioms \texttt{propext}, \texttt{Classical.choice} and
 \texttt{Quot.sound}. The upper bounds at $n=3$ and $n=5$ are not formalized, and the identity of
 Remark~\ref{rem:border} is checked by the script \texttt{verify\_border\_n4.py}.\par}
 
 The definitions and the statements of Theorems~\ref{thm:43}, \ref{thm:1511} and~\ref{thm:n3} and of
-$P_\F(4)=7$ are as follows, verbatim from the three files, without the proofs. Here \texttt{Matrix m n F} is the type of functions
+$P_\F(4)=7$ are as follows, verbatim from the Lean files, without the proofs. Here \texttt{Matrix m n F} is the type of functions
 \texttt{m → n → F}, and \texttt{rank} is Mathlib's \texttt{Matrix.rank}.
 
 {\footnotesize
@@ -494,7 +499,7 @@ minutes, a third worker proved Theorem~\ref{thm:43}, with the excess lemma in ra
 system; another worker found the same constant independently, as a combination of $26$ inequalities found by
 a linear-programming search. The value $P_\F(5)\ge8$ followed after $19$ minutes, $P_\Q(4)=7$ after $24$
 minutes, $P_\F(4)=7$ over every field after $33$ minutes, and $P_\F(6)\ge9$, which completes
-Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. Theorem~\ref{thm:1511} followed after $62$ minutes: one
+Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. Theorem~\ref{thm:1511} followed after $62$ minutes, and $67n/49$ after $74$ minutes: one
 worker had found the constant $15/11$ by a linear-programming search, the advisor and a second worker made
 the certificate exact, and a third worker proved its $189$ inequalities in Lean. The earlier bounds are consequences of
 Theorem~\ref{thm:43} and are not included here. Another worker found the border splitting of

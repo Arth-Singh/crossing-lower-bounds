@@ -1,4 +1,10 @@
-/-
+module
+
+public import Mathlib
+public import SwapSplit
+public import SmallValues
+
+/-!
 The bound P(N) ≥ 15 N / 11 for N ≥ 5, over every field.
 
 The body of this file is the part of the dependency closure of the library unit
@@ -9,9 +15,8 @@ certificate: 189 inequalities between dimensions of sums of column spaces of fiv
 every slice system, and one arithmetic lemma that combines them. The last section states the result with the
 definitions of SwapSplit.lean.
 -/
-import Mathlib
-import SwapSplit
-import SmallValues
+
+@[expose] public section
 
 /-! ## unit T444_iSup_finset_polymatroid_rows -/
 section

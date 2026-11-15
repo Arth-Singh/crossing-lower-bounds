@@ -1,0 +1,154 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Lower bounds for Naslund's crossing problem"
+  description: >-
+    Lean 4 / Mathlib proofs of the first lower bounds above the trivial bound n for Naslund's crossing
+    problem (J. Combin. Theory Ser. A 174 (2020), Problem 12). P(n) is the least r + s such that the
+    tensor [x1 = x4][x2 = x3] on [n]^4 is a sum of r tensors of rank one along {12|34} and s tensors of
+    rank one along {13|24}; in matrix form, the least rank B + rank R(C) over all splittings S_n = B + C
+    of the swap matrix, where R is the realignment. Over every field the project proves P(n) ≥ 4n/3 for
+    n ≥ 3, P(n) ≥ 15n/11 for n ≥ 5, P(n) ≥ 67n/49 for n ≥ 7, P(n) ≥ n + 3 for n ≥ 4, P(5) ≥ 8,
+    P(6) ≥ 9, and P(4) = 7 (with a split that attains 7). The results are original.
+  authors:
+    - "Arth Singh"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Arth Singh"
+
+classification:
+  arxiv: ["math.CO", "cs.CC"]
+  msc2020: ["15A69", "15A03", "68Q17", "68V20"]
+
+sources:
+  - title: "The partition rank of a tensor and k-right corners in F_q^n"
+    authors:
+      - "Eric Naslund"
+    id: "doi:10.1016/j.jcta.2020.105190"
+    type: "paper"
+    location: "Journal of Combinatorial Theory, Series A 174 (2020), 105190; arXiv:1701.04475"
+    relationship: "other"
+    note: >-
+      Source of the problem (Problem 12: is P(n) ≥ n^(1+ε)?). The paper proves no lower bound on P(n)
+      beyond the trivial bound n. The results of this project are new lower bounds, all linear in n; they
+      do not answer the question.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "Lower bounds for Naslund's crossing problem"
+    authors:
+      - "Arth Singh"
+    id: "https://github.com/Arth-Singh/crossing-lower-bounds/tree/main/paper"
+    type: "paper"
+    location: "paper/crossing-lower-bounds.pdf in this repository (not peer reviewed)"
+    relationship: "formalizes"
+    note: >-
+      The companion paper. It proves Theorem 1 (4n/3) in full, describes the certificates behind 15n/11
+      and 67n/49, outlines the proof of n + 3, and prints the Lean definitions and statements.
+    license: "unknown"
+    author_endorsement: "endorsed"
+
+related_formalizations: []
+
+status:
+  scope: >-
+    Exactly the seven statements of Challenge.lean are proved, for the swap matrix and the realignment as
+    defined there, over an arbitrary field. Not formalized: the translation between Naslund's tensor
+    formulation and the matrix form, the upper bounds P(3) ≤ 4 and P(5) ≤ 11 (only P(4) ≤ 7 is
+    formalized), and a border splitting at n = 4 that the companion paper checks with a script.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "autonomous"
+      models: ["claude-opus-5-5", "claude-fable-5-2"]
+      framework: "Claude Code (headless sessions) inside a private multi-agent harness"
+      tool_setup: >-
+        About 20 agents (Claude Opus 5.5 workers, a Claude Fable 5.2 lead) worked as a research
+        organization with a shared library of Lean files. A verifier daemon compiled every submitted unit
+        with Lean and accepted only the axioms propext, Classical.choice, and Quot.sound. The agents posed
+        the question, found the theorems, found the linear-programming certificates of 15n/11 and 67n/49,
+        and wrote all Lean proofs. No human edited the proofs.
+      cost:
+        wall_time: "about 5 hours of the run from the first question to 67n/49"
+        spend_usd: "subscription-based"
+        hardware: "local machine and one remote CPU machine for searches"
+      prompting_notes: >-
+        The operator set goals at three points: beyond the first bounds; the whole organization on lower
+        bounds for 35 minutes, then an extension; then superlinear bounds. The statements were chosen by
+        the agents.
+    - method: "agent"
+      models: ["claude-fable-5-2", "claude-opus-5-5"]
+      framework: "Claude Code"
+      tool_setup: >-
+        Operated the run, checked the proof of 4n/3 by hand, and assembled this repository: the library
+        units that each result depends on are concatenated unchanged in dependency order (one section per
+        unit), with bridge theorems that restate the results with the definitions of SwapSplit.lean.
+        Changes to the agents' Lean text: the 4n/3 proof in SwapSplit.lean was ported from its unit with
+        two lemma names changed; two unused `open` lines were removed; all files were converted to the
+        Lean module system for Lean v4.35.0-rc2.
+      cost:
+        wall_time: "about 3 hours"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "n/a"
+  spend_usd: "subscription-based"
+  notes: >-
+    The proof text is machine-written. The maintainer directed the work and is responsible for this
+    submission, and did not write or edit the Lean proofs.
+
+fidelity:
+  divergences: >-
+    The statements use the matrix form of Naslund's problem: the swap matrix and the realignment over
+    Fin N × Fin N, with Mathlib's Matrix.rank. Their equivalence with the tensor form is elementary and
+    is explained in Section 1 of the companion paper; it is not formalized.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "Claude Fable 5.2 and Claude Opus 5.5 (AI assistants, operator side)"
+  notes: >-
+    Checks made before submission: lake build of the whole project on Lean v4.35.0-rc2; #print axioms
+    shows only propext, Classical.choice, and Quot.sound for every theorem; the sources contain no sorry,
+    axiom declarations, or native_decide; the bridge theorems prove that the agents' definitions of the
+    swap matrix and the realignment equal those of Challenge.lean. The proof of 4n/3 was checked by hand
+    by the operator side and in a review of the paper draft. No human has read the other proofs line by
+    line; their only complete proofs are the Lean proofs.
+
+alignment:
+  namespace: "Crossing"
+  statements:
+    - source: "Companion paper, Theorem 1: P(n) ≥ 4n/3 for n ≥ 3"
+      lean: "Crossing.four_thirds"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Theorem 2: P(n) ≥ 15n/11 for n ≥ 5"
+      lean: "Crossing.fifteen_elevenths"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Section 5: P(n) ≥ 67n/49 for n ≥ 7"
+      lean: "Crossing.sixtyseven_fortyninths"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Theorem 3: P(n) ≥ n + 3 for n ≥ 4"
+      lean: "Crossing.add_three"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Corollary 4: P(4) = 7"
+      lean: "Crossing.four_eq_seven"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Section 4: P(5) ≥ 8"
+      lean: "Crossing.five_ge_eight"
+      module: "Solution"
+      status: "proved"
+    - source: "Companion paper, Section 4: P(6) ≥ 9"
+      lean: "Crossing.six_ge_nine"
+      module: "Solution"
+      status: "proved"
+
+acknowledgements: >-
+  Mathlib; E. Naslund for the problem; T. Karam, P. Hrubeš, A. Wigderson and A. Yehudayoff for the
+  surrounding literature.

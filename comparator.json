@@ -1,0 +1,16 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Crossing.four_thirds",
+    "Crossing.fifteen_elevenths",
+    "Crossing.sixtyseven_fortyninths",
+    "Crossing.add_three",
+    "Crossing.four_eq_seven",
+    "Crossing.five_ge_eight",
+    "Crossing.six_ge_nine"
+  ],
+  "definition_names": ["SwapSplit.swapMat", "SwapSplit.realign"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

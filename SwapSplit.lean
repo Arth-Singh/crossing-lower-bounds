@@ -1,4 +1,8 @@
-/-
+module
+
+public import Mathlib
+
+/-!
 Lower bounds for splitting the swap matrix into a low-rank part and a part of low operator Schmidt rank.
 
 Let F be a field. The swap matrix S_N of F^N ⊗ F^N has S_N[(x, y), (u, v)] = [u = y][v = x], and the
@@ -9,14 +13,16 @@ For every split S_N = B + C:
 * `swap_split_ge_add_two`               (N ≥ 4):  N + 2 ≤ rank B + rank (R C);
 * `swap_split_ge_add_three_of_ge_seven` (N ≥ 7):  N + 3 ≤ rank B + rank (R C).
 
-The exact values P(4) = 7 and P(5) ≥ 8 are in SmallValues.lean.
+The exact value P(4) = 7, P(5) ≥ 8, P(6) ≥ 9 and N + 3 are in SmallValues.lean; 15 N / 11 and 67 N / 49 are in
+FifteenElevenths.lean and SixtySevenFortyNinths.lean.
 
-Standalone: only Mathlib. Checked with Lean v4.33.1 and Mathlib v4.33.1 (commit 0df444a3). The proofs are those of
+Standalone: only Mathlib. Checked with Lean v4.35.0-rc2 and Mathlib v4.35.0-rc2. The proofs are those of
 the library units rank_factorization_sum_of_rank_one, merge_level_ceiling_matrix_rank,
 matrix_sylvester_rank_inequality, minsum_ge_five_quarters_N_every_field (submodularity) and
 minsum_ge_four_thirds_N_every_field of an automated multi-agent run.
 -/
-import Mathlib
+
+@[expose] public section
 
 open Matrix
 
