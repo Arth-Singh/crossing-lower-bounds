@@ -2,6 +2,14 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage[margin=1.1in]{geometry}
 \usepackage[hidelinks]{hyperref}
+\usepackage{etoolbox}
+
+% amsart prints addresses after the references; put the affiliation under the author on the title page.
+\makeatletter
+\patchcmd{\@setauthors}{\MakeUppercase{\authors}}%
+  {\MakeUppercase{\authors}\par\vspace{3pt}{\normalfont\small AIM Intelligence}}%
+  {}{\PackageError{note}{could not place the affiliation}{}}
+\makeatother
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -17,7 +25,6 @@
 
 \title{Lower bounds for Naslund's crossing problem}
 \author{Arth Singh}
-\address{AIM Intelligence}
 \date{}
 
 \begin{document}
