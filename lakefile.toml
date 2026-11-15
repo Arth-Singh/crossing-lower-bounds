@@ -1,5 +1,5 @@
 name = "crossing"
-defaultTargets = ["SwapSplit", "SmallValues", "FifteenElevenths"]
+defaultTargets = ["SwapSplit", "SmallValues", "FifteenElevenths", "SixtySevenFortyNinths"]
 
 [[require]]
 name = "mathlib"
@@ -14,3 +14,6 @@ name = "SmallValues"
 
 [[lean_lib]]
 name = "FifteenElevenths"
+
+[[lean_lib]]
+name = "SixtySevenFortyNinths"
