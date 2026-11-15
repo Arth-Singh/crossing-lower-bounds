@@ -10,26 +10,28 @@ field**:
 
 | Statement | Range | Lean theorem |
 |---|---|---|
-| `P(n) >= 5n/4` | `n >= 3` | `SwapSplit.swap_split_ge_five_quarters` |
-| `P(n) >= n + 2` | `n >= 4` | `SwapSplit.swap_split_ge_add_two` |
-| `P(n) >= n + 1` | `n >= 3` | `SwapSplit.swap_split_ge_succ` |
-| `P(4) >= 6` | | `SwapSplit.swap_split_four_ge_six` |
+| `P(n) >= 4n/3` | `n >= 3` | `SwapSplit.swap_split_ge_four_thirds` |
+| `P(n) >= n + 3` | `n >= 4` | `SwapSplit.swap_split_ge_add_three` |
+| `P(4) = 7` (lower and upper bound) | | `SwapSplit.swap_split_four_eq_seven` |
+| `P(5) >= 8` | | `SwapSplit.swap_split_five_ge_eight` |
+| `P(6) >= 9` | | `SwapSplit.swap_split_six_ge_nine` |
 
-Together with easy upper bounds, `P(3) = 4` and `6 <= P(4) <= 7`. These bounds are far from `n^(1+eps)`;
-they are, to our knowledge, the first above `n`.
+With an easy upper bound, `P(3) = 4`, `P(4) = 7` and `8 <= P(5) <= 11`. The bound `4n/3` is attained at
+`n = 3`. These bounds are far from `n^(1+eps)`; they are, to our knowledge, the first above `n`.
 
 In matrix form, `P(n)` is the least `rank B + rank R(C)` over all splittings `S_n = B + C` of the swap matrix
 of `F^n ⊗ F^n`, where `R` is the realignment (so `rank R(C)` is the operator Schmidt rank of `C`). The Lean
-file states the theorems in this form.
+files state the theorems in this form.
 
-- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (6 pages, with human-readable proofs)
-- **Lean proof:** [`SwapSplit.lean`](SwapSplit.lean) (one file, imports Mathlib only)
+- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (7 pages; a full proof of `4n/3` and an outline of `n + 3`)
+- **Lean proofs:** [`SwapSplit.lean`](SwapSplit.lean) (298 lines: `4n/3`, imports Mathlib only) and
+  [`SmallValues.lean`](SmallValues.lean) (4,915 lines: `n + 3`, `P(4) = 7`, `P(5) >= 8`, `P(6) >= 9`)
 - **Border splitting at n = 4:** [`border/`](border) (data and an exact-arithmetic checker)
 
 ## How the results were found
 
 The theorems and their Lean proofs were found by AI agents in one run of an in-house multi-agent harness:
-20 agents (Claude Opus 5.5) that work as a small research organization, with leads, workers and an advisor.
+about 20 agents (Claude Opus 5.5) that work as a small research organization, with leads, workers and an advisor.
 Agents set goals for each other and share a library of Lean files. A statement counts as proved only after
 Lean accepts it, and a claim of novelty needs a literature search by the advisor agent.
 
@@ -39,10 +41,17 @@ Lean accepts it, and a claim of novelty needs a literature search by the advisor
 3. The operator then set the goal to go beyond them. The first worker proved `n + 2` and `5n/4`, with the
    second worker's slice identities and a new corank argument. The time from the goal to `5n/4` was 36
    minutes; the time from the first question to `5n/4` was about two and a half hours.
-4. A third worker found a border splitting of `S_4` with `r + s = 6`. The advisor agent refereed the proofs,
+4. The operator then put the whole organization on the problem for 35 minutes. After 15 minutes a third
+   worker proved `4n/3` (a rank form of the excess lemma, the transposed slice system, three rotations of a
+   three-cycle). Another worker found the same constant independently with a linear-programming search.
+   `P(5) >= 8` followed after 19 minutes, `P(4) = 7` over the rationals after 24 minutes and over every field
+   after 33 minutes, and `P(6) >= 9`, which completes `n + 3` for every `n >= 4`, after 44 minutes (in an
+   extension of the time). The earlier bounds `n + 1`, `8n/7`, `n + 2` and `5n/4` follow from `4n/3` and are
+   no longer in the repository.
+5. Another worker found a border splitting of `S_4` with `r + s = 6`. The advisor agent refereed the proofs,
    checked the border splitting with exact arithmetic, and searched the literature.
 
-The standalone Lean file, the literature check and the text of the paper were prepared with AI assistance
+The Lean files of this repository, the literature check and the text of the paper were prepared with AI assistance
 (Claude). The author takes responsibility for the content.
 
 ## Verify it yourself
@@ -54,13 +63,18 @@ lake exe cache get   # downloads the Mathlib build cache
 lake build
 ```
 
-The build prints, for each of the four theorems,
+The build prints, for each of the seven theorems in the table and `swap_split_ge_add_two`,
 
 ```
-'SwapSplit.swap_split_ge_five_quarters' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SwapSplit.swap_split_ge_four_thirds' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-which are Lean's three standard axioms. The file contains no `sorry`.
+which are Lean's three standard axioms. The files contain no `sorry` and no `axiom` declarations.
+
+`SmallValues.lean` is long because its body is the dependency closure of 61 Lean files of the multi-agent run,
+concatenated unchanged (one `section` per file). The agents named the swap matrix `biancaSwapF` and the
+realignment `biancaRealignF`; the last section of the file proves that these are the definitions `swapMat` and
+`realign` of `SwapSplit.lean`, and states the results with them.
 
 Border splitting at `n = 4` (Python 3, standard library only):
 
@@ -74,11 +88,13 @@ matrix of operator Schmidt rank at most 3.
 
 ## What is and is not verified
 
-- **Verified in Lean:** the four statements in the table, exactly as stated in `SwapSplit.lean` (definitions
-  `swapMat` and `realign` at the top of the file).
+- **Verified in Lean:** the statements in the table, exactly as stated in the two files (definitions
+  `swapMat` and `realign` at the top of `SwapSplit.lean`). The proof of `4n/3` is also written out in the
+  paper and was checked by hand. The proofs of `n + 3`, `P(4) >= 7`, `P(5) >= 8` and `P(6) >= 9` are outlined
+  in the paper; their only complete proofs are the Lean proofs.
 - **Checked by script:** the border identity at `n = 4`.
 - **Not formalized:** the translation between Naslund's tensor formulation and the matrix form (Section 1 of
-  the paper), the upper bounds `P(3) <= 4` and `P(4) <= 7` (a one-paragraph argument in the paper), and the
+  the paper), the upper bounds `P(3) <= 4` and `P(5) <= 11` (a one-paragraph argument in the paper), and the
   remarks.
 - **Novelty:** we searched Naslund (JCTA 2020), Karam (arXiv:2310.11356), Hrubeš–Wigderson–Yehudayoff
   (JAMS 2011), Hrubeš (CCC 2024), Brand–Kaski–Wang (arXiv:2607.02241) and Appendix G of

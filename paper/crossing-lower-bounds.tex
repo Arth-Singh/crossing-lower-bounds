@@ -41,10 +41,11 @@ Let $T_n(x_1,x_2,x_3,x_4)=[x_1=x_4]\,[x_2=x_3]$ on $[n]^4$ over a field $\F$. Na
 is a sum of $r$ tensors of rank one along the partition $\{12\mid34\}$ and $s$ tensors of rank one along
 $\{13\mid24\}$ only if $r+s\ge n^{1+\varepsilon}$. In matrix form, the least such $r+s$ is the least value
 of $\rk B+\rk\R(C)$ over all splittings $S_n=B+C$ of the swap matrix of $\F^n\otimes\F^n$, where $\R$ is the
-realignment. The only lower bound we found in the literature is the trivial bound $n$. We prove $r+s\ge 5n/4$ for
-$n\ge3$ and $r+s\ge n+2$ for $n\ge4$, over every field. The least value is $4$ at $n=3$, and $6$ or $7$ at
-$n=4$. The proofs are elementary, and they are formalized in Lean~4 with Mathlib. The theorems and their
-formal proofs were found by AI agents in a multi-agent research harness.
+realignment. The only lower bound we found in the literature is the trivial bound $n$. We prove
+$r+s\ge 4n/3$ for $n\ge3$ and $r+s\ge n+3$ for $n\ge4$, over every field. The least value is $4$ at $n=3$ and
+$7$ at $n=4$; at $n=4$, limits of splittings reach $6$. The proof of the bound $4n/3$ takes one page. All the
+results are formalized in Lean~4 with Mathlib. The theorems and their formal proofs were found by AI agents
+in a multi-agent research harness.
 \end{abstract}
 
 \maketitle
@@ -68,7 +69,7 @@ noted that no explicit superlinear lower bound is known for any tensor of this k
 $n\times n$ identity matrix remains, and it is a sum of at most $r+s$ matrices of rank one. A positive answer
 would give new lower bounds for non-commutative circuits~\cite{HWY11,Nas20}. In the same framework, Brand,
 Kaski and Wang~\cite{BKW26} use partition ranks to bound multiplicative complexity from below in any constant
-degree; they do not treat the crossing tensor.
+degree; their paper does not discuss the crossing tensor.
 
 \emph{Matrix form.} Index the rows of an $n^2\times n^2$ matrix by pairs $(x,y)$ and its columns by pairs
 $(u,v)$. The swap matrix $S_n$ has entries $S_n[(x,y),(u,v)]=[u=y]\,[v=x]=T_n(x,y,u,v)$. The
@@ -79,62 +80,67 @@ Hence
 \[
   P_\F(n)=\min\{\rk B+\rk\R(C) : S_n=B+C\}.
 \]
+The realignment is an involution and $\R(S_n)=S_n$, so $S_n=\R(C)+\R(B)$ is again a splitting, with the roles
+of $\rk B$ and $\rk\R(C)$ exchanged.
 
 \subsection*{Results}
 
-\begin{theorem}\label{thm:54}
-Let $\F$ be a field and $n\ge3$. If $S_n=B+C$, then $4\,(\rk B+\rk\R(C))\ge5n$.
+\begin{theorem}\label{thm:43}
+Let $\F$ be a field and $n\ge3$. If $S_n=B+C$, then $3\,(\rk B+\rk\R(C))\ge4n$.
 \end{theorem}
 
-\begin{theorem}\label{thm:n2}
-Let $\F$ be a field and $n\ge4$. If $S_n=B+C$, then $\rk B+\rk\R(C)\ge n+2$.
+\begin{theorem}\label{thm:n3}
+Let $\F$ be a field and $n\ge4$. If $S_n=B+C$, then $\rk B+\rk\R(C)\ge n+3$.
 \end{theorem}
 
 \begin{corollary}\label{cor:values}
-For every field $\F$, $P_\F(n)\ge\max(\lceil 5n/4\rceil,\,n+2)$ for $n\ge4$, $P_\F(3)=4$, and
-$6\le P_\F(4)\le7$.
+For every field $\F$ and $n\ge4$, $P_\F(n)\ge\max(\lceil 4n/3\rceil,\,n+3)$. Moreover $P_\F(3)=4$,
+$P_\F(4)=7$ and $8\le P_\F(5)\le11$.
 \end{corollary}
 
 To our knowledge, these are the first lower bounds on $P_\F(n)$ above the trivial bound $n$. They are far
-from Naslund's question, but Theorem~\ref{thm:54} is a bound of the form $(1+c)\,n$ with $c>0$.
-Theorem~\ref{thm:n2} is stronger at $n=4$, the two bounds agree for $5\le n\le8$, and Theorem~\ref{thm:54} is
-stronger for $n\ge9$. The hypotheses on $n$ are needed: $P_\F(2)=2$, so Theorem~\ref{thm:54} fails at $n=2$,
-and $P_\F(3)=4$, so Theorem~\ref{thm:n2} fails at $n=3$.
+from Naslund's question, but Theorem~\ref{thm:43} is a bound of the form $(1+c)\,n$ with $c>0$, and it is
+attained at $n=3$. Theorem~\ref{thm:n3} is stronger for $4\le n\le6$, the two bounds agree for
+$7\le n\le9$, and Theorem~\ref{thm:43} is stronger for $n\ge10$. The hypotheses on $n$ are needed:
+$P_\F(2)=2$, so Theorem~\ref{thm:43} fails at $n=2$, and $P_\F(3)=4$, so Theorem~\ref{thm:n3} fails at
+$n=3$.
 
 \emph{Connection to circuit lower bounds.} Over $\Q$, $P_\Q(n)$ is the width of the non-commutative
 polynomial $\sum_{i,j\in[n]}x_iy_jx_iy_j$ \cite[Lemma~3.5]{HWY11}. By \cite[Proposition~4.1]{HWY11} it lies
-between $\beta(n)$ and $4\beta(n)$, where $\beta(n)$, written $\beta_\Q(n)$ in~\cite{Hru24}, is the least number of terms in an identity
-$(x_1^2+\dots+x_n^2)(y_1^2+\dots+y_n^2)=\sum_{k=1}^{\beta(n)}f_kf_k'$ with bilinear forms $f_k,f'_k$ over
-$\Q$; see also~\cite[Appendix~G]{Ant26}. A lower bound $\beta(n)\ge n^{1+\varepsilon}$ would give
-exponential lower bounds on non-commutative circuits over $\Q$ for the permanent~\cite[Theorem~1.8]{HWY11}.
-For the least number $S_{\mathbb R}(n)$ of squares of real bilinear forms in such an identity, the bounds
-$S_{\mathbb R}(n)>n$ unless $n\in\{1,2,4,8\}$ and $S_{\mathbb R}(n)\ge(2-o(1))n$ are known
-\cite[Theorems~1.1 and~1.2]{HWY11}. They use that the terms are squares, and they do not apply to $\beta(n)$
-or to $P_\F(n)$. The best upper bounds we know are $P_\Q(n)=O(n^{11/6})$ \cite[Appendix~G]{Ant26} and, through
-$P_\Q(n)\le4\beta(n)$, $P_\Q(n)=O(n^{1.62})$ by~\cite[Theorem~12]{Hru24}, which holds over every field;
-its proof is sketched there as a modification of~\cite[Theorem~1]{Hru24}.
+between $\beta(n)$ and $4\beta(n)$, where $\beta(n)$, written $\beta_\Q(n)$ in~\cite{Hru24}, is the least
+number of terms in an identity $(x_1^2+\dots+x_n^2)(y_1^2+\dots+y_n^2)=\sum_{k=1}^{\beta(n)}f_kf_k'$ with
+bilinear forms $f_k,f'_k$ over $\Q$; see also~\cite[Appendix~G]{Cla26}. A lower bound
+$\beta(n)\ge n^{1+\varepsilon}$ would give exponential lower bounds on non-commutative circuits over $\Q$ for
+the permanent~\cite[Theorem~1.8]{HWY11}, and any superlinear lower bound on $\beta(n)$ would give a
+superlinear lower bound on non-commutative circuits for an explicit polynomial of degree four
+\cite[Theorem~1.7]{HWY11}. For the least number $S_{\mathbb R}(n)$ of squares of real bilinear forms in such
+an identity, the bounds $S_{\mathbb R}(n)>n$ unless $n\in\{1,2,4,8\}$ and $S_{\mathbb R}(n)\ge(2-o(1))n$ are
+known \cite[Theorems~1.1 and~1.2]{HWY11}. They use that the terms are squares, and they do not apply to
+$\beta(n)$ or to $P_\F(n)$. The best upper bounds we know are $P_\Q(n)=O(n^{11/6})$
+\cite[Appendix~G]{Cla26} and, through $P_\Q(n)\le4\beta(n)$, $P_\Q(n)=O(n^{1.62})$
+by~\cite[Theorem~12]{Hru24}, which holds over every field; its proof is sketched there as a modification
+of~\cite[Theorem~1]{Hru24}.
 
 \emph{Ideas of the proofs.} A splitting $S_n=B+C$ with $r=\rk B$ and $s=\rk\R(C)$ gives, for every pair of
 indices $y,u\in[n]$, an identity $X_yY_u^{\top}+Z_uW_y^{\top}=[y=u]\,I_n$ between $n\times r$ and $n\times s$
-matrices (Lemma~\ref{lem:slices}). For $y=u$ this gives the trivial bound $r+s\ge n$. The two square matrices
-$Y_y^{\top}X_y$ and $W_y^{\top}Z_y$ have coranks that add up to at most $r+s-n$ (Lemma~\ref{lem:corank}).
-For $y\ne u$ the identity forces the column spaces of $X_y$ and $Z_u$ to overlap, by an amount that the ranks
-of these square matrices control (Lemma~\ref{lem:excess}). For Theorem~\ref{thm:54} we combine these
-overlaps around a cycle of three indices with the submodularity of dimension, and we sum over the six
-rotations of the cycle. For Theorem~\ref{thm:n2} we exclude $r+s=n+1$. Then for every $y$ one of the two
-square matrices is invertible, and this gives inclusions between column spaces for different indices. A
-count of dimensions over all $n$ indices gives a contradiction.
+matrices (Lemma~\ref{lem:slices}). For $y=u$ this gives the trivial bound $r+s\ge n$. For $y\ne u$ the
+identity forces the column spaces of $X_y$ and $Z_u$ to overlap, by an amount that the ranks of $Y_u$ and
+$W_y$ control (Lemma~\ref{lem:excess}). For Theorem~\ref{thm:43} we combine these overlaps around a cycle of
+three indices with the submodularity of dimension (Lemma~\ref{lem:cycle}), and we add the resulting
+inequalities over the three rotations of the cycle, for the identities and for their transposes. For
+Theorem~\ref{thm:n3}, Theorem~\ref{thm:43} leaves only $r+s=n+2$, and we exclude it by a case analysis on
+the pair $(r,s)$.
 
-\emph{Formal verification and provenance.} All the results above, except the upper bounds at $n=3$ and
-$n=4$, are proved in Lean~4 with Mathlib (Section~\ref{sec:lean}). The theorems and their Lean proofs were
-found by AI agents in one run of a multi-agent harness; Section~\ref{sec:how} says how.
+\emph{Formal verification and provenance.} Theorems~\ref{thm:43} and~\ref{thm:n3} and the value
+$P_\F(4)=7$ are proved in Lean~4 with Mathlib (Section~\ref{sec:lean}). The theorems and their Lean proofs
+were found by AI agents in one run of a multi-agent harness; Section~\ref{sec:how} says how.
 
-\emph{Organization.} Section~\ref{sec:slices} sets up the identities between slices and the corank bound.
-Sections~\ref{sec:54} and~\ref{sec:n2} prove Theorems~\ref{thm:54} and~\ref{thm:n2}. Section~\ref{sec:small}
-proves Corollary~\ref{cor:values} and makes some remarks, among them a border splitting at $n=4$ with
-$r+s=6$.
+\emph{Organization.} Section~\ref{sec:slices} sets up the identities between slices.
+Section~\ref{sec:43} proves Theorem~\ref{thm:43}. Section~\ref{sec:n3} outlines the proof of
+Theorem~\ref{thm:n3}, whose formal version is long. Section~\ref{sec:small} proves
+Corollary~\ref{cor:values} and makes some remarks, among them a border splitting at $n=4$ with $r+s=6$.
 
-\section{Slices and coranks}\label{sec:slices}
+\section{Slices}\label{sec:slices}
 
 Throughout, $S_n=B+C$, $r=\rk B$ and $s=\rk\R(C)$. Choose decompositions into terms of rank one,
 \begin{align*}
@@ -158,50 +164,36 @@ The $(x,v)$ entry of the left side is
 \]
 \end{proof}
 
-For $y=u$, Lemma~\ref{lem:slices} writes $I_n$ as the product of the $n\times(r+s)$ matrix
-$M_y=[X_y\mid Z_y]$ and the transpose of $[Y_y\mid W_y]$. Hence $\rk M_y=n$ and $r+s\ge n$, which is the
-trivial bound; the kernel of $M_y$ has dimension $r+s-n$. We also get
+We call a family $(X_y,Y_u,Z_u,W_y)_{y,u\in[n]}$ of $n\times r$ and $n\times s$ matrices with the property of
+Lemma~\ref{lem:slices} a \emph{slice system} of widths $(r,s)$. The transpose of the identity for $(u,y)$ is
+$Y_yX_u^{\top}+W_uZ_y^{\top}=[y=u]\,I_n$, so $(Y_y,X_u,W_u,Z_y)$ is again a slice system of widths $(r,s)$;
+we call it the \emph{transposed} system.
+
+For $y=u$, Lemma~\ref{lem:slices} writes $I_n$ as the product of the $n\times(r+s)$ matrix $[X_y\mid Z_y]$
+and the transpose of $[Y_y\mid W_y]$. Hence $r+s\ge n$, which is the trivial bound, and
 \begin{equation}\label{eq:span}
   \col X_y+\col Z_y=\F^n\qquad\text{for every }y\in[n],
 \end{equation}
-where $\col$ denotes the column space. For $y\in[n]$ let
-\[
-  \rho_y=\rk(Y_y^{\top}X_y)\le r,\qquad \pi_y=\rk(W_y^{\top}Z_y)\le s.
-\]
+where $\col$ denotes the column space. In particular $\rk X_y+\rk Z_y\ge n$, and in the same way
+$\rk Y_y+\rk W_y\ge n$.
 
-\begin{lemma}[coranks]\label{lem:corank}
-For every $y\in[n]$, $(r-\rho_y)+(s-\pi_y)\le r+s-n$, that is, $\rho_y+\pi_y\ge n$.
-\end{lemma}
+\section{Proof of Theorem~\ref{thm:43}}\label{sec:43}
 
-\begin{proof}
-If $Y_y^{\top}X_yv=0$, then multiplication of $X_yY_y^{\top}+Z_yW_y^{\top}=I_n$ on the right by $X_yv$ gives
-$X_yv=Z_yW_y^{\top}X_yv$, so the vector $(v,-W_y^{\top}X_yv)$ lies in the kernel of $M_y$. In the same way,
-if $W_y^{\top}Z_yw=0$, then $Z_yw=X_yY_y^{\top}Z_yw$ and $(-Y_y^{\top}Z_yw,w)$ lies in the kernel of $M_y$.
-These two maps from the kernels of $Y_y^{\top}X_y$ and $W_y^{\top}Z_y$ are injective. Their images meet only
-in $0$: if $(v,-W_y^{\top}X_yv)=(-Y_y^{\top}Z_yw,w)$, then $X_yv=-X_yY_y^{\top}Z_yw=-Z_yw$, so
-$w=-W_y^{\top}X_yv=W_y^{\top}Z_yw=0$, and then $v=0$. Hence the two kernels have dimensions that add up to at
-most $\dim\ker M_y=r+s-n$.
-\end{proof}
-
-\section{Proof of Theorem~\ref{thm:54}}\label{sec:54}
+Write $\xi_y=\col X_y$ and $\zeta_y=\col Z_y$.
 
 \begin{lemma}[excess]\label{lem:excess}
 For $a\ne b$,
 \begin{align*}
-  \dim(\col X_a+\col Z_b)&\le\dim\col Z_b+r-\rho_b,\\
-  \dim(\col X_a+\col Z_b)&\le\dim\col X_a+s-\pi_a.
+  \dim(\xi_a+\zeta_b)+\rk Y_b&\le\dim\zeta_b+r,\\
+  \dim(\xi_a+\zeta_b)+\rk W_a&\le\dim\xi_a+s.
 \end{align*}
 \end{lemma}
 
 \begin{proof}
-By Lemma~\ref{lem:slices}, $X_aY_b^{\top}+Z_bW_a^{\top}=0$. Multiplication on the right by $X_b$ gives
-$X_a(Y_b^{\top}X_b)=-Z_bW_a^{\top}X_b$. The column space of this matrix lies in $\col X_a\cap\col Z_b$, and
-by Sylvester's inequality its rank is at least $\dim\col X_a+\rho_b-r$. Hence
-\[
-  \dim(\col X_a+\col Z_b)=\dim\col X_a+\dim\col Z_b-\dim(\col X_a\cap\col Z_b)\le\dim\col Z_b+r-\rho_b.
-\]
-In the same way, multiplication by $Z_a$ gives $Z_b(W_a^{\top}Z_a)=-X_aY_b^{\top}Z_a$, whose rank is at least
-$\dim\col Z_b+\pi_a-s$, and this gives the second bound.
+By Lemma~\ref{lem:slices}, the matrix $M=X_aY_b^{\top}$ is equal to $-Z_bW_a^{\top}$. Its column space lies
+in $\xi_a\cap\zeta_b$. By Sylvester's inequality, $\rk M\ge\rk X_a+\rk Y_b-r$ and $\rk M\ge\rk Z_b+\rk W_a-s$.
+With $\dim(\xi_a+\zeta_b)=\dim\xi_a+\dim\zeta_b-\dim(\xi_a\cap\zeta_b)$, the first lower bound on $\rk M$ gives
+the first inequality, and the second gives the second.
 \end{proof}
 
 We use submodularity of dimension in the following form: for subspaces $E_1$, $E_2$, $E_3$ of $\F^n$,
@@ -212,109 +204,121 @@ This holds because $E_1+E_3\subseteq(E_1+E_2)+(E_2+E_3)$ and $E_2\subseteq(E_1+E
 
 \begin{lemma}[three-cycle]\label{lem:cycle}
 Let $a,b,c\in[n]$ be distinct. Then
-\[
-  n+\pi_a+\rho_b+\pi_c\le2(r+s)\qquad\text{and}\qquad n+\rho_a+\pi_b+\rho_c\le2(r+s).
-\]
+\begin{align*}
+  n+\rk W_c+\rk Y_b+\rk W_a&\le\rk X_a+r+2s,\\
+  n+\rk Y_c+\rk W_b+\rk Y_a&\le\rk Z_a+2r+s.
+\end{align*}
 \end{lemma}
 
 \begin{proof}
-Write $\xi_y=\col X_y$ and $\zeta_y=\col Z_y$. By \eqref{eq:span}, $\dim(\zeta_a+\xi_a)=n$. Two applications
-of \eqref{eq:submod} give
+By \eqref{eq:span}, $\dim(\zeta_a+\xi_a)=n$. Two applications of \eqref{eq:submod} give
 \begin{align*}
   n+\dim\xi_c&\le\dim(\zeta_a+\xi_c)+\dim(\xi_c+\xi_a),\\
   \dim(\xi_c+\xi_a)+\dim\zeta_b&\le\dim(\xi_c+\zeta_b)+\dim(\zeta_b+\xi_a).
 \end{align*}
-By Lemma~\ref{lem:excess},
-\[
-  \dim(\xi_c+\zeta_a)\le\dim\xi_c+s-\pi_c,\quad \dim(\xi_c+\zeta_b)\le\dim\zeta_b+r-\rho_b,\quad
-  \dim(\xi_a+\zeta_b)\le\dim\xi_a+s-\pi_a.
-\]
-We combine the five inequalities and get $n+\pi_a+\rho_b+\pi_c\le r+2s+\dim\xi_a\le2r+2s$. The second
-inequality follows in the same way with the roles of $(X,Y,r)$ and $(Z,W,s)$ exchanged.
+By Lemma~\ref{lem:excess}, applied to the pairs $(c,a)$, $(c,b)$ and $(a,b)$,
+\begin{align*}
+  \dim(\xi_c+\zeta_a)&\le\dim\xi_c+s-\rk W_c,\\
+  \dim(\xi_c+\zeta_b)&\le\dim\zeta_b+r-\rk Y_b,\\
+  \dim(\xi_a+\zeta_b)&\le\dim\xi_a+s-\rk W_a.
+\end{align*}
+The sum of the five inequalities is the first claim, since $\dim\xi_a=\rk X_a$. The second claim follows in
+the same way with the roles of $(X,Y,r)$ and $(Z,W,s)$ exchanged.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:54}]
-Take three distinct indices $1,2,3$; this needs $n\ge3$. Apply Lemma~\ref{lem:cycle} to $(a,b,c)=(1,2,3)$,
-$(2,3,1)$ and $(3,1,2)$. This gives six inequalities, and each of $\rho_1,\rho_2,\rho_3,\pi_1,\pi_2,\pi_3$
-occurs in exactly three of them. Their sum is
+\begin{proof}[Proof of Theorem~\ref{thm:43}]
+Take three distinct indices $1,2,3$; this needs $n\ge3$. Let $x=\sum_{y=1}^3\rk X_y$, and define $\bar y$,
+$z$, $w$ in the same way from the matrices $Y_y$, $Z_y$, $W_y$. Apply Lemma~\ref{lem:cycle} to
+$(a,b,c)=(1,2,3)$, $(2,3,1)$ and $(3,1,2)$. In each of the two inequalities, every index occurs once in each
+position, so the sums over the three rotations are
 \[
-  6n+3\sum_{y=1}^{3}(\rho_y+\pi_y)\le12(r+s).
+  3n+2w+\bar y\le x+3r+6s,\qquad 3n+2\bar y+w\le z+6r+3s.
 \]
-By Lemma~\ref{lem:corank}, the sum on the left is at least $3n$. Hence $15n\le12(r+s)$, that is,
-$5n\le4(r+s)$.
+The transposed system exchanges $X$ with $Y$ and $Z$ with $W$, and gives in the same way
+\[
+  3n+2z+x\le\bar y+3r+6s,\qquad 3n+2x+z\le w+6r+3s.
+\]
+These are three rotations with four inequalities each. Their sum is
+$12n+2(x+\bar y+z+w)\le18(r+s)$. By the end of Section~\ref{sec:slices}, $x+z\ge3n$ and $\bar y+w\ge3n$.
+Hence $24n\le18(r+s)$, that is, $4n\le3(r+s)$.
 \end{proof}
 
-\section{Proof of Theorem~\ref{thm:n2}}\label{sec:n2}
+\section{Proof of Theorem~\ref{thm:n3}}\label{sec:n3}
 
-Let $n\ge4$. By Theorem~\ref{thm:54}, $r+s\ge\lceil5n/4\rceil\ge n+1$, so it suffices to show that $r+s=n+1$ is
-impossible. Assume $r+s=n+1$.
+The formal proof of Theorem~\ref{thm:n3} has about $4\,900$ lines (Section~\ref{sec:lean}). We outline it
+and name the parts of the Lean file. Let $n\ge4$ and $S_n=B+C$ with $r=\rk B$ and $s=\rk\R(C)$. By
+Theorem~\ref{thm:43}, $r+s\ge\lceil4n/3\rceil\ge n+2$, so we must exclude $r+s=n+2$. Since the realignment
+exchanges $r$ and $s$, we may assume $s\le r$. The case $s=0$ is impossible because $\rk S_n=n^2$.
 
-\begin{lemma}[widths]\label{lem:widths}
-$r\ge2$ and $s\ge2$.
+\begin{lemma}[one term]\label{lem:one}
+If $s\le1$, then $r\ge n(n-1)/2$.
 \end{lemma}
 
-\begin{proof}
-Fix $y$. By Lemma~\ref{lem:slices}, $I_n=X_yY_y^{\top}+Z_yW_y^{\top}$, and the second term has rank at most
-$s$. Hence $\rk X_y\ge n-s$, and in the same way $\rk Y_y\ge n-s$. Now take $a\ne b$. The matrix
-$X_aY_b^{\top}=-Z_bW_a^{\top}$ has rank at most $s$. Sylvester's inequality for the product of an $n\times r$
-and an $r\times n$ matrix gives
-\[
-  s\ge\rk(X_aY_b^{\top})\ge\rk X_a+\rk Y_b-r\ge2(n-s)-(n+1-s)=n-1-s.
-\]
-So $2s\ge n-1\ge3$ and $s\ge2$. The bound $r\ge2$ follows in the same way from $Z_bW_a^{\top}$.
+\begin{proof}[Outline]
+If $\rk\R(C)\le1$, then $C=G\otimes H$ for two $n\times n$ matrices. The kernel of $S_n-G\otimes H$ is
+isomorphic to the space of $n\times n$ matrices $Z$ with $Z^{\top}=GZH^{\top}$, and this space has dimension at
+most $n(n+1)/2$ over every field. Hence $r=\rk(S_n-G\otimes H)\ge n^2-n(n+1)/2$.
 \end{proof}
 
-By Lemma~\ref{lem:corank} with $r+s-n=1$, for every $y$ either $\rho_y=r$ or $\pi_y=s$, that is, at least one
-of the square matrices $Y_y^{\top}X_y$ and $W_y^{\top}Z_y$ is invertible. We say that $y$ has
-\emph{type~A} if $W_y^{\top}Z_y$ is invertible, and \emph{type~B} if $Y_y^{\top}X_y$ is invertible. Every
-$y$ has type~A or type~B.
+Since $n(n-1)/2>n+1$ for $n\ge4$, Lemma~\ref{lem:one} excludes $s=1$.
 
-\begin{lemma}[inclusions]\label{lem:incl}
-For every $y$, $\col X_y\ne\F^n$ and $\col Z_y\ne\F^n$. If $b$ has type~B, then $\col X_a\subseteq\col Z_b$ for
-every $a\ne b$. If $a$ has type~A, then $\col Z_b\subseteq\col X_a$ for every $b\ne a$.
+\begin{lemma}[two terms]\label{lem:two}
+If $s\le2$, then $r\ge n+1$.
 \end{lemma}
 
-\begin{proof}
-By Lemma~\ref{lem:widths}, $X_y$ has $r=n+1-s\le n-1$ columns and $Z_y$ has $s\le n-1$ columns, which gives
-the first statement. Let $a\ne b$. As in the proof of Lemma~\ref{lem:excess},
-$X_a(Y_b^{\top}X_b)=-Z_bW_a^{\top}X_b$. If $Y_b^{\top}X_b$ is invertible, this writes $X_a$ as $Z_b$ times a
-matrix, so $\col X_a\subseteq\col Z_b$. In the same way, $Z_b(W_a^{\top}Z_a)=-X_aY_b^{\top}Z_a$, and if
-$W_a^{\top}Z_a$ is invertible, then $\col Z_b\subseteq\col X_a$.
+\begin{proof}[Outline]
+Pad the slices with zero columns to widths $(n,2)$. One shows that every $W_y$ is injective and that every
+$X_i$ has a nonzero vector $w_i$ with $w_iX_i=0$. Lemma~\ref{lem:slices} then gives $w_iZ_u=0$ for $u\ne i$
+and $w_iZ_i\ne0$. For a fixed $u$, the map $g\mapsto\sum_ig_iw_i$ is injective on the vectors $g$ with
+$g_u=0$, and its image lies in the left kernel of $Z_u$. So $\rk Z_u\le1$, which contradicts the injectivity
+statements for the transposed system.
 \end{proof}
 
-\begin{proof}[Proof of Theorem~\ref{thm:n2}]
-\emph{Step 1: either every index has type~A, or every index has type~B.} If not, there are an index $z_1$ that does not have type~A, so
-it has type~B, and an index $z_2$ that does not have type~B, so it has type~A. Then $z_1\ne z_2$, and
-Lemma~\ref{lem:incl} gives $\col X_{z_2}\subseteq\col Z_{z_1}$ and $\col Z_{z_1}\subseteq\col X_{z_2}$, so
-$\col X_{z_2}=\col Z_{z_1}$. Choose $c\notin\{z_1,z_2\}$. If $c$ has type~A, then Lemma~\ref{lem:incl} gives
-\[
-  \col Z_{z_2}\subseteq\col X_c\subseteq\col Z_{z_1}=\col X_{z_2},
-\]
-so $\F^n=\col X_{z_2}+\col Z_{z_2}=\col X_{z_2}$ by \eqref{eq:span}, which is false. If $c$ has type~B, then
-\[
-  \col X_{z_1}\subseteq\col Z_c\subseteq\col X_{z_2}=\col Z_{z_1},
-\]
-so $\F^n=\col X_{z_1}+\col Z_{z_1}=\col Z_{z_1}$, which is also false.
+Lemma~\ref{lem:two} excludes $s=2$, because then $r=n<n+1$. So $3\le s\le r$, and $r=n+2-s\le n-1$.
 
-\emph{Step 2: a count of dimensions.} Suppose that all indices have type~B; the case of type~A is the same
-with the roles of $X$ and $Z$ exchanged. Number the indices $1,\dots,n$ and let
-$S_j=\col X_1+\dots+\col X_j$. By Lemma~\ref{lem:incl}, $S_j\subseteq\col Z_{j+1}$. Also
-$\col X_{j+1}\not\subseteq\col Z_{j+1}$, since otherwise $\F^n=\col X_{j+1}+\col Z_{j+1}=\col Z_{j+1}$. Hence
-$\col X_{j+1}\not\subseteq S_j$, and $\dim S_{j+1}\ge\dim S_j+1$. Since $Y_1^{\top}X_1$ is an invertible
-$r\times r$ matrix, $\dim S_1=\rk X_1=r\ge2$ by Lemma~\ref{lem:widths}. Hence $\dim S_n\ge n+1$, which is
-impossible in $\F^n$.
+\begin{lemma}[counting]\label{lem:count}
+Let $n\ge5$, $r+s=n+2$ and $3\le s\le r$. There is no slice system of widths $(r,s)$.
+\end{lemma}
+
+\begin{proof}[Outline]
+First, every $W_z$ and, by the transposed system, every $Z_u$ has full rank $s$. If $\rk X_z=r$, this
+follows from a dimension count with the subspace $\ker W_z^{\top}$. If $\rk X_z=r-1$, the projection
+$X_zY_z^{\top}$ onto $\col X_z$ turns the system into a system on the other $n-1$ indices with a term of rank
+one, and a count of ranks gives $(n-1)(r-1)\le(r-1)^2+s$, which is false. At $n=5$ the shape is $(4,3)$, and
+the same conclusion has a separate proof. Second, every $X_i$ is an $n\times r$ matrix with $r<n$, so it has
+a nonzero left kernel vector. As in the proof of Lemma~\ref{lem:two}, these two facts contradict each other.
+\end{proof}
+
+\begin{lemma}[$n=4$]\label{lem:four}
+There is no slice system with $n=4$ and widths $(3,3)$.
+\end{lemma}
+
+\begin{proof}[Outline]
+Let $K=\F(t_1,\dots,t_4)$ and consider the $4\times3$ matrices $X(t)=\sum_at_aX_a$ and $W(t)=\sum_at_aW_a$
+over $K$. Two facts about the generic point $t$ are used: it satisfies no nonzero $\F$-linear relation, and
+an $\F$-matrix that has $t$ as an eigenvector is scalar. If $\rk X(t)=3$, a comparison of images, together
+with the fact that the matrices $Y_u$ have no common nonzero kernel vector, gives a contradiction; the same
+holds for the transposed system. Otherwise both ranks are at most $2$, and then also at every point of
+$\F^4$. Lemma~\ref{lem:slices} gives $W(x)^{\top}X(x)=0$ and $X(x)\,Y(y)^{\top}X(x)=(x\cdot y)\,X(x)$ for all
+$x,y\in\F^4$, where $Y(y)=\sum_by_bY_b$, and these identities force a contradiction through the kernel
+vectors of $X(x)$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:n3}]
+By the discussion above, $r+s=n+2$ forces $3\le s\le r$. Lemma~\ref{lem:four} excludes this for $n=4$, and
+Lemma~\ref{lem:count} for $n\ge5$.
 \end{proof}
 
 \section{Small cases and remarks}\label{sec:small}
 
 \begin{proof}[Proof of Corollary~\ref{cor:values}]
-The lower bounds follow from Theorems~\ref{thm:54} and~\ref{thm:n2}; at $n=3$, Theorem~\ref{thm:54} gives
-$r+s\ge\lceil15/4\rceil=4$. For the upper bounds, split $S_n=(S_n-I)+I$. The realignment of $I$ is
+The lower bounds follow from Theorems~\ref{thm:43} and~\ref{thm:n3}; at $n=3$, Theorem~\ref{thm:43} gives
+$r+s\ge4$. For the upper bounds, split $S_n=(S_n-I)+I$. The realignment of $I$ is
 $\R(I)[(x,u),(y,v)]=[x=u]\,[y=v]$, a matrix of rank one. The matrix $S_n$ is the permutation matrix of the
 involution $(x,y)\mapsto(y,x)$, which has $n$ fixed points and $n(n-1)/2$ orbits of size two. So $S_n-I$ is,
 after a permutation of rows and columns, block diagonal with $n$ zero blocks of size one and $n(n-1)/2$ blocks
 $\left(\begin{smallmatrix}-1&1\\1&-1\end{smallmatrix}\right)$ of rank one, over every field. Hence
-$P_\F(n)\le n(n-1)/2+1$, which is $4$ at $n=3$ and $7$ at $n=4$.
+$P_\F(n)\le n(n-1)/2+1$, which is $4$ at $n=3$, $7$ at $n=4$ and $11$ at $n=5$.
 \end{proof}
 
 \begin{remark}[small $n$]
@@ -323,76 +327,91 @@ The same splitting gives $P_\F(2)\le2$, so $P_\F(2)=2$. Trivially $P_\F(1)=1$.
 
 \begin{remark}[a border splitting at $n=4$]\label{rem:border}
 The multi-agent run described below also produced $16\times3$ matrices $U(t),V(t),G(t),H(t)$ whose entries
-are integer polynomials of degree at most $3$ in $t$, and an integer $c\ne0$, with the following property.
-Let $B(t)=U(t)V(t)^{\top}$, with rows indexed by $(x,y)$ and columns by $(u,v)$, and let $C(t)$ be the matrix
-with $\R(C(t))=G(t)H(t)^{\top}$. Then
+are integer polynomials of degree at most $3$ in $t$, with the following property. Let $B(t)=U(t)V(t)^{\top}$,
+with rows indexed by $(x,y)$ and columns by $(u,v)$, and let $C(t)$ be the matrix with
+$\R(C(t))=G(t)H(t)^{\top}$. Then
 \[
-  B(t)+C(t)=c\,t^3S_4+O(t^4).
+  B(t)+C(t)=c\,t^3S_4+O(t^4),
 \]
-So, over $\mathbb R$, $S_4$ is the limit as $t\to0$ of $(B(t)+C(t))/(ct^3)$, the sum of a matrix of rank at
-most $3$ and a matrix whose realignment has rank at most $3$. The border analogue of $P_\Q(4)$ is therefore at
-most $6$, the lower bound of Corollary~\ref{cor:values}. A proof that $P_\F(4)=7$, if this is true, must use
-an argument that does not pass to limits. The data and a script that checks the identity with exact integer
-arithmetic are ancillary files (\texttt{border\_n4.json} and \texttt{verify\_border\_n4.py}).
+with $c=1994028894245376=2^9\cdot3^7\cdot29\cdot59\cdot71\cdot107\cdot137$.
+Let $\F$ be a field in which $c\ne0$, that is, of characteristic $0$ or of a characteristic other than $2$, $3$, $29$, $59$, $71$, $107$
+and $137$. Then $S_4$ lies in the Zariski closure of the set of sums of a matrix of rank at
+most $3$ and a matrix whose realignment has rank at most $3$; over $\mathbb R$ or $\mathbb C$ it is the limit
+of $(B(t)+C(t))/(ct^3)$ as $t\to0$. So the border analogue of $P_\F(4)$ is at most $6$, while
+$P_\F(4)=7$ by Corollary~\ref{cor:values}: the proof of Lemma~\ref{lem:four} cannot pass to limits. The
+trivial bound survives limits, because rank is lower semicontinuous, so the border value at $n=4$ lies
+between $4$ and $6$. We do not know whether Theorem~\ref{thm:43} survives limits; if it does, the border
+value at $n=4$ is $6$. The data and a script that checks the identity with exact integer arithmetic are in
+the repository of Section~\ref{sec:lean}, in the files \texttt{border\_n4.json} and
+\texttt{verify\_border\_n4.py}.
 \end{remark}
 
 \begin{remark}[width versus bilinear complexity]
 For $n\in\{4,8\}$ the four-square and eight-square identities have integer coefficients, so $\beta(n)\le n$,
-while $P_\Q(4)\ge6$ and $P_\Q(8)\ge10$ by Corollary~\ref{cor:values}. Hence the lower inequality
+while $P_\Q(4)=7$ and $P_\Q(8)\ge11$ by Corollary~\ref{cor:values}. Hence the lower inequality
 $\beta(n)\le P_\Q(n)$ of \cite[Proposition~4.1]{HWY11} is strict for $n=4$ and $n=8$.
 \end{remark}
 
 \begin{remark}[limits of the arguments]
-Theorem~\ref{thm:54} uses three indices, and Theorem~\ref{thm:n2} uses all $n$ indices but only when
-$r+s=n+1$. We do not know whether longer cycles of indices, or a combination of the two arguments, give a
-larger constant than $5/4$. The best upper bounds we know are $1+n(n-1)/2$ from the splitting above,
-$P_\Q(8)\le16$ from the eight-square identity~\cite[Appendix~G]{Ant26}, and $O(n^{1.62})$~\cite[Theorem~12]{Hru24}.
+Theorem~\ref{thm:43} adds inequalities between dimensions and ranks for three indices. One can ask for the
+best constant that such combinations give with $L$ indices. A computer search by the agents suggests that
+$L=4$ gives $4/3$ again and $L=5$ gives $15/11$; we have not checked this. If the constant grows without
+bound as $L$ grows, a choice of $L$ that depends on $n$ would give a superlinear bound. The proof of
+Theorem~\ref{thm:n3} excludes the single total $n+2$ and does not extend directly. The best upper bounds we
+know are $1+n(n-1)/2$ from the splitting above, $P_\Q(8)\le16$ from the eight-square
+identity~\cite[Appendix~G]{Cla26}, and $O(n^{1.62})$~\cite[Theorem~12]{Hru24}.
 \end{remark}
 
 \section{Formal verification}\label{sec:lean}
 
-{\sloppy The file \texttt{SwapSplit.lean} (ancillary file) defines the swap matrix and the realignment as
-above and proves, for every field, the theorems \texttt{SwapSplit.swap\_split\_ge\_five\_quarters}
-(Theorem~\ref{thm:54}), \texttt{SwapSplit.swap\_split\_ge\_add\_two} (Theorem~\ref{thm:n2}),
-\texttt{SwapSplit.swap\_split\_ge\_succ} (the bound $n+1$ for $n\ge3$) and
-\texttt{SwapSplit.swap\_split\_four\_ge\_six} ($P_\F(4)\ge6$). It uses Lean~4~\cite{Lean4} and
-Mathlib~\cite{Mathlib} only, and the four theorems depend only on the axioms \texttt{propext},
-\texttt{Classical.choice} and \texttt{Quot.sound}. They were checked with Lean v4.33.1 and Mathlib
-v4.33.1 (commit 0df444a3); the repository pins both. The upper bounds in
-Corollary~\ref{cor:values} are not formalized, and the identity of Remark~\ref{rem:border} is checked by the
-script \texttt{verify\_border\_n4.py}.\par}
+{\sloppy The repository \url{https://github.com/Arth-Singh/crossing-lower-bounds} contains two Lean files.
+They use Lean~4~\cite{Lean4} and Mathlib~\cite{Mathlib} only, and the repository pins Lean v4.33.1 and
+Mathlib v4.33.1 (commit 0df444a3). The file \texttt{SwapSplit.lean} ($298$ lines) defines the swap matrix and
+the realignment as above and proves Theorem~\ref{thm:43} as \texttt{SwapSplit.swap\_split\_ge\_four\_thirds},
+with the proof of Section~\ref{sec:43}. The file \texttt{SmallValues.lean} ($4\,915$ lines) proves
+Theorem~\ref{thm:n3} as \texttt{SwapSplit.swap\_split\_ge\_add\_three}, the value $P_\F(4)=7$, including the
+upper bound, as \texttt{SwapSplit.swap\_split\_four\_eq\_seven}, and $P_\F(5)\ge8$ and $P_\F(6)\ge9$. Its body
+is the dependency closure of $61$ files of the multi-agent run, unchanged, and its last section proves that
+the agents' definitions of the swap matrix and the realignment are those of \texttt{SwapSplit.lean}. Every
+theorem named here depends only on the axioms \texttt{propext}, \texttt{Classical.choice} and
+\texttt{Quot.sound}. The upper bounds at $n=3$ and $n=5$ are not formalized, and the identity of
+Remark~\ref{rem:border} is checked by the script \texttt{verify\_border\_n4.py}.\par}
 
 \section{How the results were found}\label{sec:how}
 
-The results come from one run of an in-house harness in which $20$ AI agents (Claude models, Anthropic; the
-agents in the steps below ran on Claude Opus~5.5) work as a small research organization. Agents hold roles (leads,
-workers, an advisor), set goals for each other, and share a library of Lean files. A statement counts as
-proved only after Lean accepts it, and a claim of novelty needs a literature search by the advisor. The run
-studied the decomposition of the crossing that is used in~\cite{Ant26}.
+The results come from one run of an in-house harness in which about $20$ AI agents (Claude Opus~5.5,
+Anthropic) work as a small research organization. Agents hold roles (leads, workers, an advisor), set goals
+for each other, and share a library of Lean files. A statement counts as proved only after Lean accepts it,
+and a claim of novelty needs a literature search by the advisor. The run studied the decomposition of the
+crossing that is used in~\cite{Cla26}.
 
 The steps were as follows. One worker agent posed the lower-bound question as a goal and proved the trivial
 bound $n$ in Lean. A second worker proved $r+s\ge n+1$ for $n\ge3$, and then $7(r+s)\ge8n$, with the
-identities between slices of Lemma~\ref{lem:slices}; no person had asked for these bounds. The author then
-set the goal to go beyond them. The first worker proved Theorem~\ref{thm:n2} and then
-Theorem~\ref{thm:54}, with the second worker's slice identities and a new corank argument. The time from the
-goal to Theorem~\ref{thm:54} was $36$ minutes, and the time from the first question to
-Theorem~\ref{thm:54} was about two and a half hours. A third worker found the border splitting of
+identities of Lemma~\ref{lem:slices}; no person had asked for these bounds. The author then gave a small team
+one hour to go beyond them, and the first worker proved $r+s\ge n+2$ for $n\ge4$ and $4(r+s)\ge5n$ within
+$36$ minutes. The author then put the whole organization on the problem for $35$ minutes. After $15$
+minutes, a third worker proved Theorem~\ref{thm:43}, with the excess lemma in rank form and the transposed
+system; another worker found the same constant independently, as a combination of $26$ inequalities found by
+a linear-programming search. The value $P_\F(5)\ge8$ followed after $19$ minutes, $P_\Q(4)=7$ after $24$
+minutes, $P_\F(4)=7$ over every field after $33$ minutes, and $P_\F(6)\ge9$, which completes
+Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. The earlier bounds are consequences of
+Theorem~\ref{thm:43} and are not included here. Another worker found the border splitting of
 Remark~\ref{rem:border}. The advisor agent refereed the proofs, checked the border splitting with exact
 arithmetic, and searched the literature for earlier bounds.
 
-The standalone Lean file, the literature check for this note and the text of this note were prepared with AI
-assistance (Claude). The four main statements are verified in Lean (Section~\ref{sec:lean}). The author takes
-responsibility for the content.
+The Lean files of the repository, the literature check for this note and the text of this note were
+prepared with AI assistance (Claude). Theorems~\ref{thm:43} and~\ref{thm:n3} are verified in Lean
+(Section~\ref{sec:lean}). The author takes responsibility for the content.
 
 \begin{thebibliography}{Mathlib}
-
-\bibitem[Ant26]{Ant26}
-Anthropic, \emph{A $2^{o(n)}$ time algorithm for 3-SAT}, Hexagon preprint hexagon:2610.00577v1, October
-2026. Lean files: \url{https://github.com/anthropics/formal-math} (folder \texttt{eth}).
 
 \bibitem[BKW26]{BKW26}
 C.~Brand, P.~Kaski and J.~Wang, \emph{Partition rank and algebraic circuit lower bounds}, arXiv:2607.02241,
 2026.
+
+\bibitem[Cla26]{Cla26}
+Claude (Anthropic), \emph{A $2^{o(n)}$ time algorithm for 3-SAT}, Hexagon preprint hexagon:2610.00577v1,
+October 2026. Lean files: \url{https://github.com/anthropics/formal-math} (folder \texttt{eth}).
 
 \bibitem[Hru24]{Hru24}
 P.~Hrube\v{s}, \emph{A subquadratic upper bound on sum-of-squares composition formulas}, in: 39th
