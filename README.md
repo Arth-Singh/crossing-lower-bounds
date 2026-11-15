@@ -33,7 +33,7 @@ files state the theorems in this form.
 
 ## Contents
 
-- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (8 pages: a full proof of
+- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (9 pages: a full proof of
   `4n/3`, a description of the certificates, an outline of `n + 3`, and the Lean statements verbatim).
 - **Statements to audit:** [`Challenge.lean`](Challenge.lean) (88 lines). It imports one Mathlib module and
   contains the two definitions and the seven statements, with `sorry`. [`Solution.lean`](Solution.lean)
@@ -51,7 +51,9 @@ files state the theorems in this form.
 ## Verify it yourself
 
 Lean and Mathlib v4.35.0-rc2 are pinned in `lean-toolchain` and `lake-manifest.json`. Every Lean file uses the
-Lean module system.
+Lean module system. The Lean sources that the paper cites are fixed at the tag
+[`lean-v1`](https://github.com/Arth-Singh/crossing-lower-bounds/tree/lean-v1) (commit `3d302668a9f3`); later
+commits change only the paper, the README and the metadata.
 
 ```bash
 lake exe cache get   # downloads the Mathlib build cache
