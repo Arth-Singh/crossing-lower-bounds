@@ -1,5 +1,7 @@
 # Lower bounds for Naslund's crossing problem
 
+Arth Singh, AIM Intelligence
+
 **Result.** Let `P(n)` be the least `r + s` such that the tensor `[x1 = x4][x2 = x3]` on `[n]^4` is a sum of
 `r` tensors of rank one along `{12|34}` and `s` tensors of rank one along `{13|24}`. Naslund
 ([Problem 12](https://arxiv.org/abs/1701.04475), JCTA 2020) asked whether `P(n) >= n^(1+eps)`. The only
