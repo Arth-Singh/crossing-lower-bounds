@@ -3,6 +3,8 @@
 \usepackage[margin=1.1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage{eso-pic}
 
 % amsart prints addresses after the references; put the affiliation under the author on the title page.
 \makeatletter
@@ -28,6 +30,11 @@
 \date{}
 
 \begin{document}
+
+% A note at the top of the first page only.
+\AddToShipoutPictureFG*{\AtTextUpperLeft{\makebox[\textwidth][c]{\parbox[t]{0.92\textwidth}{\centering
+  \normalfont\color{red}\small We share this mathematics as a contribution to the community. We do not intend to affect
+  anyone's ongoing work in this direction.}}}}
 
 \begin{abstract}
 Let $T_n(x_1,x_2,x_3,x_4)=[x_1=x_4]\,[x_2=x_3]$ on $[n]^4$ over a field $\F$. Naslund asked whether $T_n$
