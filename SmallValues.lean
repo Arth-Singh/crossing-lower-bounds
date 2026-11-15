@@ -4876,8 +4876,10 @@ theorem swap_split_four_ge_seven {F : Type*} [Field F] (B C : Matrix (Fin 4 × F
 
 /-- P(4) = 7 over every field: the value 7 is attained, and every split needs at least 7. -/
 theorem swap_split_four_eq_seven (F : Type*) [Field F] :
-    (∃ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F, swapMat F 4 = B + C ∧ B.rank + (realign C).rank = 7) ∧
-    ∀ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F, swapMat F 4 = B + C → 7 ≤ B.rank + (realign C).rank := by
+    (∃ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F,
+        swapMat F 4 = B + C ∧ B.rank + (realign C).rank = 7) ∧
+    ∀ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F,
+        swapMat F 4 = B + C → 7 ≤ B.rank + (realign C).rank := by
   refine ⟨?_, fun B C h => swap_split_four_ge_seven B C h⟩
   obtain ⟨B, C, h, hle⟩ := daria_P4_le_seven (F := F)
   have h' : swapMat F 4 = B + C := by rw [swapMat_eq_biancaSwapF]; exact h

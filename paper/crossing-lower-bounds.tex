@@ -13,6 +13,15 @@
   {}{\PackageError{note}{could not place the affiliation}{}}
 \makeatother
 
+% Unicode characters of the Lean listing in Section 6.
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
+\DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -42,9 +51,9 @@ is a sum of $r$ tensors of rank one along the partition $\{12\mid34\}$ and $s$ t
 $\{13\mid24\}$ only if $r+s\ge n^{1+\varepsilon}$. In matrix form, the least such $r+s$ is the least value
 of $\rk B+\rk\R(C)$ over all splittings $S_n=B+C$ of the swap matrix of $\F^n\otimes\F^n$, where $\R$ is the
 realignment. The only lower bound we found in the literature is the trivial bound $n$. We prove
-$r+s\ge 4n/3$ for $n\ge3$ and $r+s\ge n+3$ for $n\ge4$, over every field. The least value is $4$ at $n=3$ and
-$7$ at $n=4$; at $n=4$, limits of splittings reach $6$. The proof of the bound $4n/3$ takes one page. All the
-results are formalized in Lean~4 with Mathlib. The theorems and their formal proofs were found by AI agents
+$r+s\ge 4n/3$ for $n\ge3$, $r+s\ge15n/11$ for $n\ge5$ and $r+s\ge n+3$ for $n\ge4$, over every field. The least value is $4$ at $n=3$ and
+$7$ at $n=4$; at $n=4$, limits of splittings reach $6$. The proof of the bound $4n/3$ takes one page. The
+lower bounds and the value at $n=4$ are formalized in Lean~4 with Mathlib. The theorems and their formal proofs were found by AI agents
 in a multi-agent research harness.
 \end{abstract}
 
@@ -89,21 +98,27 @@ of $\rk B$ and $\rk\R(C)$ exchanged.
 Let $\F$ be a field and $n\ge3$. If $S_n=B+C$, then $3\,(\rk B+\rk\R(C))\ge4n$.
 \end{theorem}
 
+\begin{theorem}\label{thm:1511}
+Let $\F$ be a field and $n\ge5$. If $S_n=B+C$, then $11\,(\rk B+\rk\R(C))\ge15n$.
+\end{theorem}
+
 \begin{theorem}\label{thm:n3}
 Let $\F$ be a field and $n\ge4$. If $S_n=B+C$, then $\rk B+\rk\R(C)\ge n+3$.
 \end{theorem}
 
 \begin{corollary}\label{cor:values}
-For every field $\F$ and $n\ge4$, $P_\F(n)\ge\max(\lceil 4n/3\rceil,\,n+3)$. Moreover $P_\F(3)=4$,
+For every field $\F$ and $n\ge5$, $P_\F(n)\ge\max(\lceil 15n/11\rceil,\,n+3)$. Moreover $P_\F(3)=4$,
 $P_\F(4)=7$ and $8\le P_\F(5)\le11$.
 \end{corollary}
 
 To our knowledge, these are the first lower bounds on $P_\F(n)$ above the trivial bound $n$. They are far
-from Naslund's question, but Theorem~\ref{thm:43} is a bound of the form $(1+c)\,n$ with $c>0$, and it is
-attained at $n=3$. Theorem~\ref{thm:n3} is stronger for $4\le n\le6$, the two bounds agree for
-$7\le n\le9$, and Theorem~\ref{thm:43} is stronger for $n\ge10$. The hypotheses on $n$ are needed:
-$P_\F(2)=2$, so Theorem~\ref{thm:43} fails at $n=2$, and $P_\F(3)=4$, so Theorem~\ref{thm:n3} fails at
-$n=3$.
+from Naslund's question: all three are linear in $n$. Theorem~\ref{thm:43} is attained at $n=3$, and its
+proof takes one page. Theorem~\ref{thm:1511} has the better constant $15/11>4/3$; its proof is a certificate
+that a computer search found. Theorem~\ref{thm:n3} is the best of the three bounds for $n=4$ and $n=5$. For
+$n\ge6$ it follows from Theorem~\ref{thm:1511}, because then $\lceil15n/11\rceil\ge n+3$, so its new content
+is the two cases $n=4$ and $n=5$. The hypotheses on $n$ are needed: $P_\F(2)=2$, so Theorem~\ref{thm:43}
+fails at $n=2$, and $P_\F(3)=4$, so Theorems~\ref{thm:1511} and~\ref{thm:n3} fail at $n=3$. The inequality of
+Theorem~\ref{thm:1511} also holds at $n=4$, by Theorem~\ref{thm:n3}.
 
 \emph{Connection to circuit lower bounds.} Over $\Q$, $P_\Q(n)$ is the width of the non-commutative
 polynomial $\sum_{i,j\in[n]}x_iy_jx_iy_j$ \cite[Lemma~3.5]{HWY11}. By \cite[Proposition~4.1]{HWY11} it lies
@@ -127,16 +142,22 @@ matrices (Lemma~\ref{lem:slices}). For $y=u$ this gives the trivial bound $r+s\g
 identity forces the column spaces of $X_y$ and $Z_u$ to overlap, by an amount that the ranks of $Y_u$ and
 $W_y$ control (Lemma~\ref{lem:excess}). For Theorem~\ref{thm:43} we combine these overlaps around a cycle of
 three indices with the submodularity of dimension (Lemma~\ref{lem:cycle}), and we add the resulting
-inequalities over the three rotations of the cycle, for the identities and for their transposes. For
+inequalities over the three rotations of the cycle, for the identities and for their transposes.
+Theorem~\ref{thm:1511} combines inequalities of the same kinds for five indices; the combination has $189$
+terms and was found by a linear-programming search. For
 Theorem~\ref{thm:n3}, Theorem~\ref{thm:43} leaves only $r+s=n+2$, and we exclude it by a case analysis on
 the pair $(r,s)$.
 
-\emph{Formal verification and provenance.} Theorems~\ref{thm:43} and~\ref{thm:n3} and the value
-$P_\F(4)=7$ are proved in Lean~4 with Mathlib (Section~\ref{sec:lean}). The theorems and their Lean proofs
-were found by AI agents in one run of a multi-agent harness; Section~\ref{sec:how} says how.
+\emph{Formal verification and provenance.} Theorems~\ref{thm:43}, \ref{thm:1511} and~\ref{thm:n3} and the
+value $P_\F(4)=7$ are proved in Lean~4 with Mathlib (Section~\ref{sec:lean}). The theorems and their Lean proofs
+were found by AI agents in one run of a multi-agent harness; Section~\ref{sec:how} says how. The proof of
+Theorem~\ref{thm:43} is given in full in Section~\ref{sec:43}. The proofs of Theorems~\ref{thm:1511}
+and~\ref{thm:n3} are only described here, and no person has read them in full: their only complete proofs
+are the Lean proofs. For this reason
+Section~\ref{sec:lean} prints the formal definitions and statements.
 
 \emph{Organization.} Section~\ref{sec:slices} sets up the identities between slices.
-Section~\ref{sec:43} proves Theorem~\ref{thm:43}. Section~\ref{sec:n3} outlines the proof of
+Section~\ref{sec:43} proves Theorem~\ref{thm:43} and describes the proof of Theorem~\ref{thm:1511}. Section~\ref{sec:n3} outlines the proof of
 Theorem~\ref{thm:n3}, whose formal version is long. Section~\ref{sec:small} proves
 Corollary~\ref{cor:values} and makes some remarks, among them a border splitting at $n=4$ with $r+s=6$.
 
@@ -243,11 +264,43 @@ $12n+2(x+\bar y+z+w)\le18(r+s)$. By the end of Section~\ref{sec:slices}, $x+z\ge
 Hence $24n\le18(r+s)$, that is, $4n\le3(r+s)$.
 \end{proof}
 
+\begin{remark}[a shorter proof]\label{rem:short}
+Theorem~\ref{thm:43} also has a proof with one triple of indices and no rotations. It was found in the review
+of a draft of this note, with AI assistance, and it is not formalized. Write $\eta_y=\col Y_y$ and
+$\omega_y=\col W_y$. For $y\ne u$, Lemma~\ref{lem:slices} says that the product of $[X_y\mid Z_u]$ and the
+transpose of $[Y_u\mid W_y]$ is zero. Both matrices have $r+s$ columns, so
+\begin{equation}\label{eq:pair}
+  \dim(\xi_y+\zeta_u)+\dim(\eta_u+\omega_y)\le r+s.
+\end{equation}
+Let $a,b,c$ be distinct. Two applications of \eqref{eq:submod}, which start from $\dim(\xi_a+\zeta_a)=n$, and
+two more for the transposed system, which start from $\dim(\eta_a+\omega_a)=n$, give
+\begin{align*}
+  n+\dim\zeta_b+\dim\xi_c&\le\dim(\xi_a+\zeta_b)+\dim(\xi_c+\zeta_b)+\dim(\xi_c+\zeta_a),\\
+  n+\dim\eta_b+\dim\omega_c&\le\dim(\eta_b+\omega_a)+\dim(\eta_b+\omega_c)+\dim(\eta_a+\omega_c).
+\end{align*}
+By \eqref{eq:pair} for $(y,u)=(a,b)$, $(c,b)$ and $(c,a)$, the sum of the two right sides is at most $3(r+s)$.
+Lemma~\ref{lem:slices} for $y=u$ gives $n\le\rk(X_bY_b^{\top})+\rk(Z_bW_b^{\top})\le\dim\eta_b+\dim\zeta_b$, and
+in the same way $n\le\dim\xi_c+\dim\omega_c$. Hence $4n\le3(r+s)$.
+\end{remark}
+
+\emph{On the proof of Theorem~\ref{thm:1511}.} Take five distinct indices; this needs $n\ge5$. The proof
+is a certificate: a list of $189$ inequalities with integer weights. They relate the widths $r$ and $s$, the
+dimensions of sums of the column spaces of the slices at the five indices, and the ranks of the matrices
+$X_yY_u^{\top}$. Each inequality is of a kind used above: monotonicity and submodularity of dimension,
+\eqref{eq:span}, Sylvester's inequality, and the fact from the proof of Lemma~\ref{lem:excess} that the
+column space of $X_yY_u^{\top}$ lies in $\xi_y\cap\zeta_u$, for the slice system and for the transposed
+system. The weighted sum of the $189$ inequalities is $15n\le11(r+s)$. A linear-programming search by the
+agents found the certificate. We do not print it. The Lean file of Section~\ref{sec:lean} proves each of
+the $189$ inequalities for every slice system and checks the weighted sum.
+
 \section{Proof of Theorem~\ref{thm:n3}}\label{sec:n3}
 
 The formal proof of Theorem~\ref{thm:n3} has about $4\,900$ lines (Section~\ref{sec:lean}). We outline it
 and name the parts of the Lean file. Let $n\ge4$ and $S_n=B+C$ with $r=\rk B$ and $s=\rk\R(C)$. By
-Theorem~\ref{thm:43}, $r+s\ge\lceil4n/3\rceil\ge n+2$, so we must exclude $r+s=n+2$. Since the realignment
+Theorem~\ref{thm:43}, $r+s\ge\lceil4n/3\rceil\ge n+2$, so we must exclude $r+s=n+2$. For $n\ge7$
+Theorem~\ref{thm:43} does this already, and for $n=6$ Theorem~\ref{thm:1511} does. So the argument below
+is needed only for $n=4$ and $n=5$. The formal proof does not use Theorem~\ref{thm:1511}, and we outline it
+as it is. Since the realignment
 exchanges $r$ and $s$, we may assume $s\le r$. The case $s=0$ is impossible because $\rk S_n=n^2$.
 
 \begin{lemma}[one term]\label{lem:one}
@@ -312,7 +365,7 @@ Lemma~\ref{lem:count} for $n\ge5$.
 \section{Small cases and remarks}\label{sec:small}
 
 \begin{proof}[Proof of Corollary~\ref{cor:values}]
-The lower bounds follow from Theorems~\ref{thm:43} and~\ref{thm:n3}; at $n=3$, Theorem~\ref{thm:43} gives
+The lower bounds follow from Theorems~\ref{thm:43}, \ref{thm:1511} and~\ref{thm:n3}; at $n=3$, Theorem~\ref{thm:43} gives
 $r+s\ge4$. For the upper bounds, split $S_n=(S_n-I)+I$. The realignment of $I$ is
 $\R(I)[(x,u),(y,v)]=[x=u]\,[y=v]$, a matrix of rank one. The matrix $S_n$ is the permutation matrix of the
 involution $(x,y)\mapsto(y,x)$, which has $n$ fixed points and $n(n-1)/2$ orbits of size two. So $S_n-I$ is,
@@ -352,30 +405,77 @@ while $P_\Q(4)=7$ and $P_\Q(8)\ge11$ by Corollary~\ref{cor:values}. Hence the lo
 $\beta(n)\le P_\Q(n)$ of \cite[Proposition~4.1]{HWY11} is strict for $n=4$ and $n=8$.
 \end{remark}
 
-\begin{remark}[limits of the arguments]
-Theorem~\ref{thm:43} adds inequalities between dimensions and ranks for three indices. One can ask for the
-best constant that such combinations give with $L$ indices. A computer search by the agents suggests that
-$L=4$ gives $4/3$ again and $L=5$ gives $15/11$; we have not checked this. If the constant grows without
-bound as $L$ grows, a choice of $L$ that depends on $n$ would give a superlinear bound. The proof of
-Theorem~\ref{thm:n3} excludes the single total $n+2$ and does not extend directly. The best upper bounds we
-know are $1+n(n-1)/2$ from the splitting above, $P_\Q(8)\le16$ from the eight-square
-identity~\cite[Appendix~G]{Cla26}, and $O(n^{1.62})$~\cite[Theorem~12]{Hru24}.
+\begin{remark}[limits of the arguments]\label{rem:limits}
+The proofs of Theorems~\ref{thm:43} and~\ref{thm:1511} use only facts of the following kinds about the column spaces $\xi_y$, $\zeta_y$,
+$\eta_y=\col Y_y$ and $\omega_y=\col W_y$ of three or five indices: \eqref{eq:span}, Lemma~\ref{lem:excess} and
+\eqref{eq:pair}, the same facts for the transposed system, and inequalities between dimensions that hold for
+all subspaces. With $L$ indices in place of three, computer searches for the best combination of such
+inequalities give the constant $4/3$ again for $L=4$ and $15/11$ for $L=5$; the latter is
+Theorem~\ref{thm:1511}. A search by the agents and an independent search in the review of a draft agree on
+these values. Further computations by the agents suggest that the constants increase with $L$ to the limit
+$1+1/e\approx1.37$; we have not checked this. No such
+combination reaches the constant $2$, by the following example from the same review. Let $L\ge3$ divide $n$,
+split $\F^n$ into $L$ blocks of dimension $n/L$, and put $r=(2-3/L)\,n$ and $s=n/L$. For $y\in[L]$ let
+$\xi_y=\eta_y$ be the sum of all blocks except block $y$, and let $\zeta_y=\omega_y$ be block $y$. Then
+$\xi_y+\zeta_y=\F^n$, all dimensions are at most the widths, and for $a\ne b$ we have $\zeta_b\subseteq\xi_a$,
+so the two inequalities of Lemma~\ref{lem:excess} and \eqref{eq:pair} hold, with equality. The same is true
+for the transposed system by symmetry. We do not claim that these subspaces come from a splitting, but every
+argument that uses only the facts above for $L$ indices also applies to them. So no such argument proves
+more than $r+s\ge(2-2/L)\,n$, and none gives a superlinear bound. The proof of Theorem~\ref{thm:n3} excludes
+the single total $n+2$ and does not extend directly. The best upper bounds we know are $1+n(n-1)/2$ from the
+splitting above, $P_\Q(8)\le16$ from the eight-square identity~\cite[Appendix~G]{Cla26}, and
+$O(n^{1.62})$~\cite[Theorem~12]{Hru24}.
 \end{remark}
 
 \section{Formal verification}\label{sec:lean}
 
-{\sloppy The repository \url{https://github.com/Arth-Singh/crossing-lower-bounds} contains two Lean files.
+{\sloppy The repository \url{https://github.com/Arth-Singh/crossing-lower-bounds} contains three Lean files.
 They use Lean~4~\cite{Lean4} and Mathlib~\cite{Mathlib} only, and the repository pins Lean v4.33.1 and
 Mathlib v4.33.1 (commit 0df444a3). The file \texttt{SwapSplit.lean} ($298$ lines) defines the swap matrix and
 the realignment as above and proves Theorem~\ref{thm:43} as \texttt{SwapSplit.swap\_split\_ge\_four\_thirds},
-with the proof of Section~\ref{sec:43}. The file \texttt{SmallValues.lean} ($4\,915$ lines) proves
+with the proof of Section~\ref{sec:43}. The file \texttt{SmallValues.lean} ($4\,917$ lines) proves
 Theorem~\ref{thm:n3} as \texttt{SwapSplit.swap\_split\_ge\_add\_three}, the value $P_\F(4)=7$, including the
 upper bound, as \texttt{SwapSplit.swap\_split\_four\_eq\_seven}, and $P_\F(5)\ge8$ and $P_\F(6)\ge9$. Its body
 is the dependency closure of $61$ files of the multi-agent run, unchanged, and its last section proves that
-the agents' definitions of the swap matrix and the realignment are those of \texttt{SwapSplit.lean}. Every
+the agents' definitions of the swap matrix and the realignment are those of \texttt{SwapSplit.lean}. The file
+\texttt{FifteenElevenths.lean} ($1\,756$ lines, with $17$ more files of the run) proves
+Theorem~\ref{thm:1511} as \texttt{SwapSplit.swap\_split\_ge\_fifteen\_elevenths}. Every
 theorem named here depends only on the axioms \texttt{propext}, \texttt{Classical.choice} and
 \texttt{Quot.sound}. The upper bounds at $n=3$ and $n=5$ are not formalized, and the identity of
 Remark~\ref{rem:border} is checked by the script \texttt{verify\_border\_n4.py}.\par}
+
+The definitions and the statements of Theorems~\ref{thm:43}, \ref{thm:1511} and~\ref{thm:n3} and of
+$P_\F(4)=7$ are as follows, verbatim from the three files, without the proofs. Here \texttt{Matrix m n F} is the type of functions
+\texttt{m → n → F}, and \texttt{rank} is Mathlib's \texttt{Matrix.rank}.
+
+{\footnotesize
+\begin{verbatim}
+def swapMat (F : Type*) [Field F] (N : ℕ) : Matrix (Fin N × Fin N) (Fin N × Fin N) F :=
+  fun p q => if q.1 = p.2 ∧ q.2 = p.1 then 1 else 0
+
+def realign {F : Type*} [Field F] {N : ℕ} (C : Matrix (Fin N × Fin N) (Fin N × Fin N) F) :
+    Matrix (Fin N × Fin N) (Fin N × Fin N) F :=
+  fun p q => C (p.1, q.1) (p.2, q.2)
+
+theorem swap_split_ge_four_thirds {F : Type*} [Field F] (N : ℕ) (hN : 3 ≤ N)
+    (B C : Matrix (Fin N × Fin N) (Fin N × Fin N) F)
+    (h : swapMat F N = B + C) : 4 * N ≤ 3 * (B.rank + (realign C).rank)
+
+theorem swap_split_ge_fifteen_elevenths {F : Type*} [Field F] (N : ℕ) (hN : 5 ≤ N)
+    (B C : Matrix (Fin N × Fin N) (Fin N × Fin N) F)
+    (h : swapMat F N = B + C) : 15 * N ≤ 11 * (B.rank + (realign C).rank)
+
+theorem swap_split_ge_add_three {F : Type*} [Field F] (N : ℕ) (hN : 4 ≤ N)
+    (B C : Matrix (Fin N × Fin N) (Fin N × Fin N) F)
+    (h : swapMat F N = B + C) : N + 3 ≤ B.rank + (realign C).rank
+
+theorem swap_split_four_eq_seven (F : Type*) [Field F] :
+    (∃ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F,
+        swapMat F 4 = B + C ∧ B.rank + (realign C).rank = 7) ∧
+    ∀ B C : Matrix (Fin 4 × Fin 4) (Fin 4 × Fin 4) F,
+        swapMat F 4 = B + C → 7 ≤ B.rank + (realign C).rank
+\end{verbatim}
+}
 
 \section{How the results were found}\label{sec:how}
 
@@ -394,14 +494,16 @@ minutes, a third worker proved Theorem~\ref{thm:43}, with the excess lemma in ra
 system; another worker found the same constant independently, as a combination of $26$ inequalities found by
 a linear-programming search. The value $P_\F(5)\ge8$ followed after $19$ minutes, $P_\Q(4)=7$ after $24$
 minutes, $P_\F(4)=7$ over every field after $33$ minutes, and $P_\F(6)\ge9$, which completes
-Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. The earlier bounds are consequences of
+Theorem~\ref{thm:n3}, after $44$ minutes, in an extension of the time. Theorem~\ref{thm:1511} followed after $62$ minutes: one
+worker had found the constant $15/11$ by a linear-programming search, the advisor and a second worker made
+the certificate exact, and a third worker proved its $189$ inequalities in Lean. The earlier bounds are consequences of
 Theorem~\ref{thm:43} and are not included here. Another worker found the border splitting of
 Remark~\ref{rem:border}. The advisor agent refereed the proofs, checked the border splitting with exact
 arithmetic, and searched the literature for earlier bounds.
 
 The Lean files of the repository, the literature check for this note and the text of this note were
-prepared with AI assistance (Claude). Theorems~\ref{thm:43} and~\ref{thm:n3} are verified in Lean
-(Section~\ref{sec:lean}). The author takes responsibility for the content.
+prepared with AI assistance (Claude). Theorems~\ref{thm:43}, \ref{thm:1511} and~\ref{thm:n3} are
+verified in Lean (Section~\ref{sec:lean}). The author takes responsibility for the content.
 
 \begin{thebibliography}{Mathlib}
 
