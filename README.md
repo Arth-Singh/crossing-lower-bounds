@@ -2,6 +2,8 @@
 
 Arth Singh, AIM Intelligence
 
+[![Palomar: registered](https://img.shields.io/badge/Palomar-registered-blue)](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-16-000011)
+
 **Result.** Let `P(n)` be the least `r + s` such that the tensor `[x1 = x4][x2 = x3]` on `[n]^4` is a sum of
 `r` tensors of rank one along `{12|34}` and `s` tensors of rank one along `{13|24}`. Naslund
 ([Problem 12](https://arxiv.org/abs/1701.04475), JCTA 2020) asked whether `P(n) >= n^(1+eps)`. The only
@@ -69,10 +71,11 @@ The build prints, for each theorem in the table, a line such as
 These are Lean's three standard axioms. The files contain no `sorry` (except the statements of
 `Challenge.lean`), no `axiom` declarations and no `native_decide`.
 
-**Palomar preflight.** Palomar's mechanical check (build, Comparator on `Challenge.lean` against
-`Solution.lean`, permitted axioms, kernel replay) passed on commit `3d30266`
-([run 43769921534](https://github.com/Arth-Singh/crossing-lower-bounds/actions/runs/43769921534)). The
-repository was submitted to the registry for this commit and is under review; it is not registered yet.
+**Palomar registry.** The seven statements are registered as
+[PALOMAR-2026-11-16-000011](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-16-000011) (trust level
+high) for commit `3d30266`, the tag `lean-v1`. Palomar built that commit itself, ran Comparator on
+`Challenge.lean` against `Solution.lean`, checked the permitted axioms and replayed the proofs in the kernel.
+Its automated review found no blocking problem and made no comments.
 
 **Why the files are long.** The body of `SmallValues.lean` is the dependency closure of 61 Lean files of the
 multi-agent run, concatenated unchanged (one `section` per file). `FifteenElevenths.lean` adds 17 more files
