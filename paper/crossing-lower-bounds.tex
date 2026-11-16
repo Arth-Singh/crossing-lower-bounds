@@ -3,6 +3,7 @@
 \usepackage[margin=1.1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{etoolbox}
+\usepackage{multicol}
 \usepackage{xcolor}
 
 % amsart prints addresses after the references; put the affiliation under the author on the title page.
@@ -37,7 +38,279 @@
 \author{Arth Singh}
 \thanks{{\color{red}We share this mathematics as a contribution to the community. We do not intend to
 affect anyone's ongoing work in this direction.}}
+\email{arth@aim-intelligence.com}
+\subjclass[2020]{68Q17, 15A69, 15A03}
+\keywords{partition rank, tensor rank, swap matrix, operator Schmidt rank, non-commutative circuits, lower bounds, Lean}
 \date{}
+
+\newcommand{\CertFive}{%
+\item[$1736$] $f(A_1C_1)\le f(A_1)+f(C_1)$
+\item[$1055$] $f(A_2C_2)\le f(A_2)+f(C_2)$
+\item[$1685$] $f(A_3C_3)\le f(A_3)+f(C_3)$
+\item[$1657$] $f(A_4C_4)\le f(A_4)+f(C_4)$
+\item[$2162$] $f(A_5C_5)\le f(A_5)+f(C_5)$
+\item[$366$] $f(A_1C_2C_3)+f(A_1)\le f(A_1C_2)+f(A_1C_3)$
+\item[$186$] $f(A_1C_3C_4)+f(A_1)\le f(A_1C_3)+f(A_1C_4)$
+\item[$186$] $f(A_1A_2C_1)+f(A_2)\le f(A_1A_2)+f(A_2C_1)$
+\item[$186$] $f(A_1A_2A_5C_5)+f(A_1A_2)\le f(A_1A_2A_5)+f(A_1A_2C_5)$
+\item[$80$] $f(A_3C_1C_4)+f(A_3)\le f(A_3C_1)+f(A_3C_4)$
+\item[$416$] $f(A_4A_5C_5)+f(A_4)\le f(A_4A_5)+f(A_4C_5)$
+\item[$316$] $f(A_4C_2C_3)+f(A_4)\le f(A_4C_2)+f(A_4C_3)$
+\item[$346$] $f(A_2A_5C_2)+f(A_5)\le f(A_2A_5)+f(A_5C_2)$
+\item[$316$] $f(A_5C_2C_3)+f(A_5)\le f(A_5C_2)+f(A_5C_3)$
+\item[$80$] $f(A_2A_3A_5C_3)+f(A_2A_5)\le f(A_2A_3A_5)+f(A_2A_5C_3)$
+\item[$80$] $f(A_2A_5C_1C_4)+f(A_2A_5)\le f(A_2A_5C_1)+f(A_2A_5C_4)$
+\item[$186$] $f(A_2A_5C_3C_4)+f(A_2A_5)\le f(A_2A_5C_3)+f(A_2A_5C_4)$
+\item[$186$] $f(A_1A_2A_5)\le f(A_1A_2A_5C_4)$
+\item[$80$] $f(A_2A_3A_5)\le f(A_2A_3A_5C_1)$
+\item[$366$] $f(A_1A_4A_5C_1)+f(A_4A_5)\le f(A_1A_4A_5)+f(A_4A_5C_1)$
+\item[$50$] $f(A_4A_5C_2C_3)+f(A_4A_5)\le f(A_4A_5C_2)+f(A_4A_5C_3)$
+\item[$366$] $f(A_1A_4A_5)\le f(A_1A_4A_5C_3)$
+\item[$80$] $f(A_2A_5C_1)+f(C_1)\le f(A_2C_1)+f(A_5C_1)$
+\item[$366$] $f(A_4A_5C_1)+f(C_1)\le f(A_4C_1)+f(A_5C_1)$
+\item[$52$] $f(A_4C_1C_4)+f(C_1)\le f(A_4C_1)+f(C_1C_4)$
+\item[$186$] $f(A_1C_1)\le f(A_1A_2C_1)$
+\item[$366$] $f(A_1C_1)\le f(A_1A_4C_1)$
+\item[$28$] $f(A_1C_1)\le f(A_1C_1C_4)$
+\item[$366$] $f(A_1A_4C_1)\le f(A_1A_4A_5C_1)$
+\item[$80$] $f(A_2A_3A_5C_1)\le f(A_2A_3A_5C_1C_4)$
+\item[$50$] $f(A_4A_5C_2)+f(C_2)\le f(A_4C_2)+f(A_5C_2)$
+\item[$346$] $f(A_2C_2)\le f(A_2A_5C_2)$
+\item[$682$] $f(A_2C_2)\le f(A_2C_2C_3)$
+\item[$266$] $f(A_2A_5C_3)+f(C_3)\le f(A_2C_3)+f(A_5C_3)$
+\item[$682$] $f(A_2C_2C_3)+f(C_3)\le f(A_2C_3)+f(C_2C_3)$
+\item[$50$] $f(A_4A_5C_3)+f(C_3)\le f(A_4C_3)+f(A_5C_3)$
+\item[$80$] $f(A_3C_3)\le f(A_2A_3C_3)$
+\item[$186$] $f(A_3C_3)\le f(A_3C_3C_4)$
+\item[$80$] $f(A_2A_3C_3)\le f(A_2A_3A_5C_3)$
+\item[$366$] $f(A_1A_4A_5C_3)\le f(A_1A_4A_5C_2C_3)$
+\item[$366$] $f(A_1A_4C_2C_3)+f(C_2C_3)\le f(A_1C_2C_3)+f(A_4C_2C_3)$
+\item[$316$] $f(A_1A_5C_2C_3)+f(C_2C_3)\le f(A_1C_2C_3)+f(A_5C_2C_3)$
+\item[$316$] $f(A_1A_4A_5C_2C_3)+f(A_1C_2C_3)\le f(A_1A_4C_2C_3)+f(A_1A_5C_2C_3)$
+\item[$50$] $f(A_1A_4A_5C_2C_3)+f(A_4C_2C_3)\le f(A_1A_4C_2C_3)+f(A_4A_5C_2C_3)$
+\item[$28$] $f(A_1C_1C_4)+f(C_4)\le f(A_1C_4)+f(C_1C_4)$
+\item[$266$] $f(A_2A_5C_4)+f(C_4)\le f(A_2C_4)+f(A_5C_4)$
+\item[$186$] $f(A_3C_3C_4)+f(C_4)\le f(A_3C_4)+f(C_3C_4)$
+\item[$52$] $f(A_4C_4)\le f(A_4C_1C_4)$
+\item[$186$] $f(A_1A_2A_5C_4)\le f(A_1A_2A_5C_3C_4)$
+\item[$80$] $f(A_2A_3C_1C_4)+f(C_1C_4)\le f(A_2C_1C_4)+f(A_3C_1C_4)$
+\item[$80$] $f(A_2A_3A_5C_1C_4)+f(A_2C_1C_4)\le f(A_2A_3C_1C_4)+f(A_2A_5C_1C_4)$
+\item[$186$] $f(A_1A_5C_3C_4)+f(C_3C_4)\le f(A_1C_3C_4)+f(A_5C_3C_4)$
+\item[$186$] $f(A_1A_2A_5C_3C_4)+f(A_5C_3C_4)\le f(A_1A_5C_3C_4)+f(A_2A_5C_3C_4)$
+\item[$186$] $f(A_1A_2C_5)+f(C_5)\le f(A_1C_5)+f(A_2C_5)$
+\item[$186$] $f(A_5C_5)\le f(A_2A_5C_5)$
+\item[$416$] $f(A_5C_5)\le f(A_4A_5C_5)$
+\item[$186$] $f(A_2A_5C_5)\le f(A_1A_2A_5C_5)$
+\item[$2316$] $n\le f(A_1C_1)$
+\item[$2083$] $n\le f(A_2C_2)$
+\item[$1951$] $n\le f(A_3C_3)$
+\item[$1709$] $n\le f(A_4C_4)$
+\item[$2764$] $n\le f(A_5C_5)$
+\item[$369$] $g(A_1A_2C_2)+g(A_1)\le g(A_1A_2)+g(A_1C_2)$
+\item[$182$] $g(A_1C_2C_3)+g(A_1)\le g(A_1C_2)+g(A_1C_3)$
+\item[$687$] $g(A_1C_4C_5)+g(A_1)\le g(A_1C_4)+g(A_1C_5)$
+\item[$318$] $g(A_1A_2C_1)+g(A_2)\le g(A_1A_2)+g(A_2C_1)$
+\item[$687$] $g(A_2C_4C_5)+g(A_2)\le g(A_2C_4)+g(A_2C_5)$
+\item[$687$] $g(A_1A_2A_3C_3)+g(A_1A_2)\le g(A_1A_2A_3)+g(A_1A_2C_3)$
+\item[$687$] $g(A_3C_4C_5)+g(A_3)\le g(A_3C_4)+g(A_3C_5)$
+\item[$687$] $g(A_1A_2A_3)\le g(A_1A_2A_3C_4)$
+\item[$403$] $g(A_1A_4C_1)+g(A_4)\le g(A_1A_4)+g(A_4C_1)$
+\item[$592$] $g(A_4C_1C_2)+g(A_4)\le g(A_4C_1)+g(A_4C_2)$
+\item[$182$] $g(A_4C_2C_3)+g(A_4)\le g(A_4C_2)+g(A_4C_3)$
+\item[$126$] $g(A_1A_4A_5C_5)+g(A_1A_4)\le g(A_1A_4A_5)+g(A_1A_4C_5)$
+\item[$277$] $g(A_1A_4C_2C_3)+g(A_1A_4)\le g(A_1A_4C_2)+g(A_1A_4C_3)$
+\item[$333$] $g(A_1A_5C_1)+g(A_5)\le g(A_1A_5)+g(A_5C_1)$
+\item[$1184$] $g(A_3A_5C_3)+g(A_5)\le g(A_3A_5)+g(A_5C_3)$
+\item[$459$] $g(A_5C_2C_3)+g(A_5)\le g(A_5C_2)+g(A_5C_3)$
+\item[$333$] $g(A_1A_4A_5C_4)+g(A_1A_5)\le g(A_1A_4A_5)+g(A_1A_5C_4)$
+\item[$592$] $g(A_3A_4A_5C_4)+g(A_3A_5)\le g(A_3A_4A_5)+g(A_3A_5C_4)$
+\item[$592$] $g(A_3A_5C_1C_2)+g(A_3A_5)\le g(A_3A_5C_1)+g(A_3A_5C_2)$
+\item[$459$] $g(A_1A_4A_5)\le g(A_1A_4A_5C_3)$
+\item[$592$] $g(A_3A_4A_5)\le g(A_3A_4A_5C_1)$
+\item[$592$] $g(A_2C_1C_2)+g(C_1)\le g(A_2C_1)+g(C_1C_2)$
+\item[$592$] $g(A_3A_5C_1)+g(C_1)\le g(A_3C_1)+g(A_5C_1)$
+\item[$318$] $g(A_1C_1)\le g(A_1A_2C_1)$
+\item[$403$] $g(A_1C_1)\le g(A_1A_4C_1)$
+\item[$333$] $g(A_1C_1)\le g(A_1A_5C_1)$
+\item[$592$] $g(A_3A_4A_5C_1)\le g(A_3A_4A_5C_1C_2)$
+\item[$277$] $g(A_1A_4C_2)+g(C_2)\le g(A_1C_2)+g(A_4C_2)$
+\item[$592$] $g(A_3A_5C_2)+g(C_2)\le g(A_3C_2)+g(A_5C_2)$
+\item[$369$] $g(A_2C_2)\le g(A_1A_2C_2)$
+\item[$592$] $g(A_2C_2)\le g(A_2C_1C_2)$
+\item[$641$] $g(A_2C_2)\le g(A_2C_2C_3)$
+\item[$592$] $g(A_3A_4C_1C_2)+g(C_1C_2)\le g(A_3C_1C_2)+g(A_4C_1C_2)$
+\item[$592$] $g(A_3A_4A_5C_1C_2)+g(A_3C_1C_2)\le g(A_3A_4C_1C_2)+g(A_3A_5C_1C_2)$
+\item[$687$] $g(A_1A_2C_3)+g(C_3)\le g(A_1C_3)+g(A_2C_3)$
+\item[$277$] $g(A_1A_4C_3)+g(C_3)\le g(A_1C_3)+g(A_4C_3)$
+\item[$641$] $g(A_2C_2C_3)+g(C_3)\le g(A_2C_3)+g(C_2C_3)$
+\item[$687$] $g(A_3C_3)\le g(A_1A_3C_3)$
+\item[$1184$] $g(A_3C_3)\le g(A_3A_5C_3)$
+\item[$687$] $g(A_1A_3C_3)\le g(A_1A_2A_3C_3)$
+\item[$459$] $g(A_1A_4A_5C_3)\le g(A_1A_4A_5C_2C_3)$
+\item[$182$] $g(A_1A_4C_2C_3)+g(C_2C_3)\le g(A_1C_2C_3)+g(A_4C_2C_3)$
+\item[$459$] $g(A_1A_5C_2C_3)+g(C_2C_3)\le g(A_1C_2C_3)+g(A_5C_2C_3)$
+\item[$459$] $g(A_1A_4A_5C_2C_3)+g(A_1C_2C_3)\le g(A_1A_4C_2C_3)+g(A_1A_5C_2C_3)$
+\item[$333$] $g(A_1A_5C_4)+g(C_4)\le g(A_1C_4)+g(A_5C_4)$
+\item[$592$] $g(A_3A_5C_4)+g(C_4)\le g(A_3C_4)+g(A_5C_4)$
+\item[$687$] $g(A_1A_2A_3C_4)\le g(A_1A_2A_3C_4C_5)$
+\item[$925$] $g(A_4C_4)\le g(A_4A_5C_4)$
+\item[$1374$] $g(A_4C_4)\le g(A_4C_4C_5)$
+\item[$333$] $g(A_4A_5C_4)\le g(A_1A_4A_5C_4)$
+\item[$592$] $g(A_4A_5C_4)\le g(A_3A_4A_5C_4)$
+\item[$126$] $g(A_1A_4C_5)+g(C_5)\le g(A_1C_5)+g(A_4C_5)$
+\item[$1374$] $g(A_4C_4C_5)+g(C_5)\le g(A_4C_5)+g(C_4C_5)$
+\item[$126$] $g(A_5C_5)\le g(A_4A_5C_5)$
+\item[$126$] $g(A_4A_5C_5)\le g(A_1A_4A_5C_5)$
+\item[$687$] $g(A_1A_2C_4C_5)+g(C_4C_5)\le g(A_1C_4C_5)+g(A_2C_4C_5)$
+\item[$687$] $g(A_2A_3C_4C_5)+g(C_4C_5)\le g(A_2C_4C_5)+g(A_3C_4C_5)$
+\item[$687$] $g(A_1A_2A_3C_4C_5)+g(A_2C_4C_5)\le g(A_1A_2C_4C_5)+g(A_2A_3C_4C_5)$
+\item[$1054$] $n\le g(A_1C_1)$
+\item[$1602$] $n\le g(A_2C_2)$
+\item[$1871$] $n\le g(A_3C_3)$
+\item[$2299$] $n\le g(A_4C_4)$
+\item[$126$] $n\le g(A_5C_5)$
+\item[$366$] $m_{12}+f(A_1C_2)\le f(A_1)+f(C_2)$
+\item[$910$] $m_{12}+g(A_2C_1)\le g(A_2)+g(C_1)$
+\item[$149$] $f(A_1)+g(A_2)\le m_{12}+r$
+\item[$1127$] $f(C_2)+g(C_1)\le m_{12}+s$
+\item[$552$] $m_{13}+f(A_1C_3)\le f(A_1)+f(C_3)$
+\item[$592$] $m_{13}+g(A_3C_1)\le g(A_3)+g(C_1)$
+\item[$1144$] $f(A_1)+g(A_3)\le m_{13}+r$
+\item[$214$] $m_{14}+f(A_1C_4)\le f(A_1)+f(C_4)$
+\item[$995$] $m_{14}+g(A_4C_1)\le g(A_4)+g(C_1)$
+\item[$1209$] $f(A_1)+g(A_4)\le m_{14}+r$
+\item[$186$] $m_{15}+f(A_1C_5)\le f(A_1)+f(C_5)$
+\item[$925$] $m_{15}+g(A_5C_1)\le g(A_5)+g(C_1)$
+\item[$1111$] $f(C_5)+g(C_1)\le m_{15}+s$
+\item[$266$] $m_{21}+f(A_2C_1)\le f(A_2)+f(C_1)$
+\item[$828$] $m_{21}+g(A_1C_2)\le g(A_1)+g(C_2)$
+\item[$293$] $f(A_2)+g(A_1)\le m_{21}+r$
+\item[$801$] $f(C_1)+g(C_2)\le m_{21}+s$
+\item[$948$] $m_{23}+f(A_2C_3)\le f(A_2)+f(C_3)$
+\item[$592$] $m_{23}+g(A_3C_2)\le g(A_3)+g(C_2)$
+\item[$1540$] $f(C_3)+g(C_2)\le m_{23}+s$
+\item[$266$] $m_{24}+f(A_2C_4)\le f(A_2)+f(C_4)$
+\item[$1051$] $m_{24}+g(A_4C_2)\le g(A_4)+g(C_2)$
+\item[$1317$] $f(A_2)+g(A_4)\le m_{24}+r$
+\item[$186$] $m_{25}+f(A_2C_5)\le f(A_2)+f(C_5)$
+\item[$1051$] $m_{25}+g(A_5C_2)\le g(A_5)+g(C_2)$
+\item[$925$] $f(A_2)+g(A_5)\le m_{25}+r$
+\item[$312$] $f(C_5)+g(C_2)\le m_{25}+s$
+\item[$80$] $m_{31}+f(A_3C_1)\le f(A_3)+f(C_1)$
+\item[$1146$] $m_{31}+g(A_1C_3)\le g(A_1)+g(C_3)$
+\item[$1226$] $f(C_1)+g(C_3)\le m_{31}+s$
+\item[$1328$] $m_{32}+g(A_2C_3)\le g(A_2)+g(C_3)$
+\item[$6$] $f(A_3)+g(A_2)\le m_{32}+r$
+\item[$1322$] $f(C_2)+g(C_3)\le m_{32}+s$
+\item[$266$] $m_{34}+f(A_3C_4)\le f(A_3)+f(C_4)$
+\item[$459$] $m_{34}+g(A_4C_3)\le g(A_4)+g(C_3)$
+\item[$302$] $f(A_3)+g(A_4)\le m_{34}+r$
+\item[$423$] $f(C_4)+g(C_3)\le m_{34}+s$
+\item[$1643$] $m_{35}+g(A_5C_3)\le g(A_5)+g(C_3)$
+\item[$1643$] $f(A_3)+g(A_5)\le m_{35}+r$
+\item[$418$] $m_{41}+f(A_4C_1)\le f(A_4)+f(C_1)$
+\item[$1020$] $m_{41}+g(A_1C_4)\le g(A_1)+g(C_4)$
+\item[$1438$] $f(A_4)+g(A_1)\le m_{41}+r$
+\item[$366$] $m_{42}+f(A_4C_2)\le f(A_4)+f(C_2)$
+\item[$687$] $m_{42}+g(A_2C_4)\le g(A_2)+g(C_4)$
+\item[$1053$] $f(A_4)+g(A_2)\le m_{42}+r$
+\item[$366$] $m_{43}+f(A_4C_3)\le f(A_4)+f(C_3)$
+\item[$1279$] $m_{43}+g(A_3C_4)\le g(A_3)+g(C_4)$
+\item[$1645$] $f(C_3)+g(C_4)\le m_{43}+s$
+\item[$416$] $m_{45}+f(A_4C_5)\le f(A_4)+f(C_5)$
+\item[$925$] $m_{45}+g(A_5C_4)\le g(A_5)+g(C_4)$
+\item[$1341$] $f(C_5)+g(C_4)\le m_{45}+s$
+\item[$446$] $m_{51}+f(A_5C_1)\le f(A_5)+f(C_1)$
+\item[$813$] $m_{51}+g(A_1C_5)\le g(A_1)+g(C_5)$
+\item[$838$] $f(A_5)+g(A_1)\le m_{51}+r$
+\item[$421$] $f(C_1)+g(C_5)\le m_{51}+s$
+\item[$712$] $m_{52}+f(A_5C_2)\le f(A_5)+f(C_2)$
+\item[$687$] $m_{52}+g(A_2C_5)\le g(A_2)+g(C_5)$
+\item[$1399$] $f(A_5)+g(A_2)\le m_{52}+r$
+\item[$632$] $m_{53}+f(A_5C_3)\le f(A_5)+f(C_3)$
+\item[$687$] $m_{53}+g(A_3C_5)\le g(A_3)+g(C_5)$
+\item[$1319$] $f(A_5)+g(A_3)\le m_{53}+r$
+\item[$266$] $m_{54}+f(A_5C_4)\le f(A_5)+f(C_4)$
+\item[$1500$] $m_{54}+g(A_4C_5)\le g(A_4)+g(C_5)$
+\item[$1766$] $f(C_4)+g(C_5)\le m_{54}+s$}
+\newcommand{\CertSeven}{%
+\item[$56079$] $f(A_1C_1)\le f(A_1)+f(C_1)$
+\item[$8910$] $f(A_1C_1)\le f(A_1A_2C_1)$
+\item[$8586$] $f(A_1C_1)\le f(A_1C_1C_2)$
+\item[$7128$] $f(A_2A_3C_1)+f(C_1)\le f(A_2C_1)+f(A_3C_1)$
+\item[$7938$] $f(A_2C_1C_2)+f(C_1)\le f(A_2C_1)+f(C_1C_2)$
+\item[$648$] $f(A_2C_1C_2)\le f(A_2C_1C_2C_3)$
+\item[$7290$] $f(A_3A_4C_1C_2)+f(C_1C_2)\le f(A_3C_1C_2)+f(A_4C_1C_2)$
+\item[$648$] $f(A_3C_1C_2C_3)+f(C_1C_2)\le f(A_3C_1C_2)+f(C_1C_2C_3)$
+\item[$648$] $f(A_4A_5C_1C_2C_3)+f(C_1C_2C_3)\le f(A_4C_1C_2C_3)+f(A_5C_1C_2C_3)$
+\item[$4698$] $f(A_1A_2C_2)+f(A_1)\le f(A_1A_2)+f(A_1C_2)$
+\item[$10368$] $f(A_1C_2C_3)+f(A_1)\le f(A_1C_2)+f(A_1C_3)$
+\item[$4212$] $f(A_1A_2C_2)\le f(A_1A_2A_3C_2)$
+\item[$4860$] $f(A_1A_4A_5C_2C_3)+f(A_1C_2C_3)\le f(A_1A_4C_2C_3)+f(A_1A_5C_2C_3)$
+\item[$1296$] $f(A_1A_5A_6C_2C_3C_4)+f(A_1C_2C_3C_4)\le f(A_1A_5C_2C_3C_4)+f(A_1A_6C_2C_3C_4)$
+\item[$2268$] $f(A_1A_2A_3C_3)+f(A_1A_2)\le f(A_1A_2A_3)+f(A_1A_2C_3)$
+\item[$2430$] $f(A_1A_2C_3C_4)+f(A_1A_2)\le f(A_1A_2C_3)+f(A_1A_2C_4)$
+\item[$1944$] $f(A_1A_2A_3C_3)\le f(A_1A_2A_3C_3C_4)$
+\item[$1944$] $f(A_1A_2A_4C_3C_4)\le f(A_1A_2A_4C_3C_4C_5)$
+\item[$1944$] $f(A_1A_2A_5C_3C_4C_5)\le f(A_1A_2A_5A_6C_3C_4C_5)$
+\item[$1944$] $f(A_1A_2A_6A_7C_3C_4C_5)+f(A_1A_2C_3C_4C_5)\le f(A_1A_2A_6C_3C_4C_5)+f(A_1A_2A_7C_3C_4C_5)$
+\item[$2268$] $f(A_1A_2A_3C_4C_5)+f(A_1A_2A_3)\le f(A_1A_2A_3C_4)+f(A_1A_2A_3C_5)$
+\item[$4536$] $f(A_1A_2A_3C_4C_5C_6)+f(A_1A_2A_3C_4)\le f(A_1A_2A_3C_4C_5)+f(A_1A_2A_3C_4C_6)$
+\item[$1944$] $f(A_1A_2A_3A_6C_4C_5C_6)+f(A_1A_2A_3C_4C_5)\le f(A_1A_2A_3A_6C_4C_5)+f(A_1A_2A_3C_4C_5C_6)$
+\item[$1944$] $f(A_1A_2A_3A_4C_5C_6)\le f(A_1A_2A_3A_4C_5C_6C_7)$
+\item[$73575$] $n\le\bar f(\mathsf{AC})$
+\item[$24353$] $g(A_1C_1)\le g(A_1A_2C_1)$
+\item[$23275$] $g(A_1C_1)\le g(A_1C_1C_2)$
+\item[$28224$] $g(A_2A_3C_1)+g(C_1)\le g(A_2C_1)+g(A_3C_1)$
+\item[$12789$] $g(A_2C_1C_2)+g(C_1)\le g(A_2C_1)+g(C_1C_2)$
+\item[$10486$] $g(A_2C_1C_2)\le g(A_2C_1C_2C_3)$
+\item[$392$] $g(A_2A_3C_1C_2C_3)\le g(A_2A_3C_1C_2C_3C_4)$
+\item[$6615$] $g(A_3A_4C_1C_2)+g(C_1C_2)\le g(A_3C_1C_2)+g(A_4C_1C_2)$
+\item[$6174$] $g(A_3C_1C_2C_3)+g(C_1C_2)\le g(A_3C_1C_2)+g(C_1C_2C_3)$
+\item[$4312$] $g(A_3C_1C_2C_3)\le g(A_3C_1C_2C_3C_4)$
+\item[$1568$] $g(A_3A_4A_5C_1C_2C_3C_4C_6)+g(A_3A_4C_1C_2C_3C_4)\le g(A_3A_4A_5C_1C_2C_3C_4)+g(A_3A_4C_1C_2C_3C_4C_6)$
+\item[$4606$] $g(A_4A_5C_1C_2C_3)+g(C_1C_2C_3)\le g(A_4C_1C_2C_3)+g(A_5C_1C_2C_3)$
+\item[$1568$] $g(A_4C_1C_2C_3C_4)+g(C_1C_2C_3)\le g(A_4C_1C_2C_3)+g(C_1C_2C_3C_4)$
+\item[$1176$] $g(A_4C_1C_2C_3C_4)\le g(A_1A_4C_1C_2C_3C_4)$
+\item[$1568$] $g(A_4A_5C_1C_2C_3C_4C_5)+g(A_4C_1C_2C_3C_4)\le g(A_4A_5C_1C_2C_3C_4)+g(A_4C_1C_2C_3C_4C_5)$
+\item[$1568$] $g(A_5C_1C_2C_3C_4C_5)+g(C_1C_2C_3C_4)\le g(A_5C_1C_2C_3C_4)+g(C_1C_2C_3C_4C_5)$
+\item[$1568$] $g(A_6A_7C_1C_2C_3C_4C_5)+g(C_1C_2C_3C_4C_5)\le g(A_6C_1C_2C_3C_4C_5)+g(A_7C_1C_2C_3C_4C_5)$
+\item[$21609$] $g(A_1A_2C_2)+g(A_1)\le g(A_1A_2)+g(A_1C_2)$
+\item[$19404$] $g(A_1C_2C_3)+g(A_1)\le g(A_1C_2)+g(A_1C_3)$
+\item[$2744$] $g(A_1A_2A_3C_2C_4)+g(A_1A_2C_2)\le g(A_1A_2A_3C_2)+g(A_1A_2C_2C_4)$
+\item[$2352$] $g(A_1A_3A_4C_2C_3C_5)+g(A_1A_3C_2C_3)\le g(A_1A_3A_4C_2C_3)+g(A_1A_3C_2C_3C_5)$
+\item[$392$] $g(A_1A_3A_4C_1C_2C_3)+g(A_1A_3C_2C_3)\le g(A_1A_3A_4C_2C_3)+g(A_1A_3C_1C_2C_3)$
+\item[$1568$] $g(A_1A_3A_4A_5C_2C_3C_4C_5)\le g(A_1A_3A_4A_5C_2C_3C_4C_5C_6)$
+\item[$392$] $g(A_1A_4C_2C_3C_4)\le g(A_1A_2A_4C_2C_3C_4)$
+\item[$1960$] $g(A_1A_4A_5A_6C_2C_3C_4)+g(A_1A_4C_2C_3C_4)\le g(A_1A_4A_5C_2C_3C_4)+g(A_1A_4A_6C_2C_3C_4)$
+\item[$1568$] $g(A_1A_4A_5C_2C_3C_4C_5)\le g(A_1A_2A_4A_5C_2C_3C_4C_5)$
+\item[$10780$] $g(A_1A_5A_6C_2C_3C_4)+g(A_1C_2C_3C_4)\le g(A_1A_5C_2C_3C_4)+g(A_1A_6C_2C_3C_4)$
+\item[$1568$] $g(A_1A_5C_2C_3C_4C_5)\le g(A_1A_5A_6C_2C_3C_4C_5)$
+\item[$1568$] $g(A_1A_5A_6C_2C_3C_4C_5C_6)\le g(A_1A_5A_6A_7C_2C_3C_4C_5C_6)$
+\item[$1568$] $g(A_1C_2C_3C_4C_5)\le g(A_1A_6C_2C_3C_4C_5)$
+\item[$1568$] $g(A_1A_6C_2C_3C_4C_5C_6)\le g(A_1A_6A_7C_2C_3C_4C_5C_6)$
+\item[$1568$] $g(A_1A_2A_3A_6C_2C_3C_4C_5C_6)+g(A_1A_6C_2C_3C_4C_5C_6)\le g(A_1A_2A_6C_2C_3C_4C_5C_6)+g(A_1A_3A_6C_2C_3C_4C_5C_6)$
+\item[$3136$] $g(A_1C_2C_3C_4C_5C_6)\le g(A_1A_2C_2C_3C_4C_5C_6)$
+\item[$1764$] $g(A_1A_2A_3C_3)+g(A_1A_2)\le g(A_1A_2A_3)+g(A_1A_2C_3)$
+\item[$19845$] $g(A_1A_2C_3C_4)+g(A_1A_2)\le g(A_1A_2C_3)+g(A_1A_2C_4)$
+\item[$980$] $g(A_1A_2A_3C_3)\le g(A_1A_2A_3A_4C_3)$
+\item[$13230$] $g(A_1A_2C_3C_4C_5)+g(A_1A_2C_3)\le g(A_1A_2C_3C_4)+g(A_1A_2C_3C_5)$
+\item[$1568$] $g(A_1A_2A_5A_6C_3C_4C_5C_6)+g(A_1A_2A_5C_3C_4C_5)\le g(A_1A_2A_5A_6C_3C_4C_5)+g(A_1A_2A_5C_3C_4C_5C_6)$
+\item[$3724$] $g(A_1A_2A_6C_3C_4C_5C_6)+g(A_1A_2C_3C_4C_5)\le g(A_1A_2A_6C_3C_4C_5)+g(A_1A_2C_3C_4C_5C_6)$
+\item[$3136$] $g(A_1A_2C_3C_4C_5C_6)\le g(A_1A_2A_7C_3C_4C_5C_6)$
+\item[$1568$] $g(A_1A_2A_7C_3C_4C_5C_6C_7)+g(A_1A_2C_3C_4C_5C_6)\le g(A_1A_2A_7C_3C_4C_5C_6)+g(A_1A_2C_3C_4C_5C_6C_7)$
+\item[$588$] $g(A_1A_2A_3A_7C_3C_4C_5C_6)+g(A_1A_2C_3C_4C_5C_6)\le g(A_1A_2A_7C_3C_4C_5C_6)+g(A_1A_2A_3C_3C_4C_5C_6)$
+\item[$1764$] $g(A_1A_2A_3C_4C_5)+g(A_1A_2A_3)\le g(A_1A_2A_3C_4)+g(A_1A_2A_3C_5)$
+\item[$980$] $g(A_1A_2A_3A_4C_4)\le g(A_1A_2A_3A_4C_4C_5)$
+\item[$3528$] $g(A_1A_2A_3C_4C_5C_6)+g(A_1A_2A_3C_4)\le g(A_1A_2A_3C_4C_5)+g(A_1A_2A_3C_4C_6)$
+\item[$980$] $g(A_1A_2A_3A_5C_4C_5C_6C_7)+g(A_1A_2A_3A_5C_4C_5)\le g(A_1A_2A_3A_5C_4C_5C_6)+g(A_1A_2A_3A_5C_4C_5C_7)$
+\item[$5292$] $g(A_1A_2A_3C_4C_5C_6C_7)+g(A_1A_2A_3C_4C_5)\le g(A_1A_2A_3C_4C_5C_6)+g(A_1A_2A_3C_4C_5C_7)$
+\item[$1568$] $g(A_1A_2A_3A_6C_1C_4C_5C_6C_7)+g(A_1A_2A_3A_6C_4C_5C_6)\le g(A_1A_2A_3A_6C_4C_5C_6C_7)+g(A_1A_2A_3A_6C_1C_4C_5C_6)$
+\item[$47628$] $n\le\bar g(\mathsf{AC})$
+\item[$47628$] $\bar m+\bar f(\mathsf{A{\cdot}C})\le\bar f(\mathsf{A})+\bar f(\mathsf{C})$
+\item[$129654$] $\bar m+\bar g(\mathsf{A{\cdot}C})\le\bar g(\mathsf{A})+\bar g(\mathsf{C})$
+\item[$88641$] $\bar f(\mathsf{A})+\bar g(\mathsf{A})\le\bar m+r$
+\item[$88641$] $\bar f(\mathsf{C})+\bar g(\mathsf{C})\le\bar m+s$}
 
 \begin{document}
 
@@ -50,7 +323,8 @@ realignment. The only lower bound we found in the literature is the trivial boun
 $r+s\ge 4n/3$ for $n\ge3$, $r+s\ge15n/11$ for $n\ge5$, $r+s\ge67n/49$ for $n\ge7$ and $r+s\ge n+3$ for
 $n\ge4$, over every field. The least value is $4$ at $n=3$ and
 $7$ at $n=4$; at $n=4$, limits of splittings reach $6$ in characteristic $0$ and in all but seven positive
-characteristics. The proof of the bound $4n/3$ takes one page. The
+characteristics. The proof of the bound $4n/3$ takes one page, and the proofs of $15n/11$ and $67n/49$ are
+certificates that we print in full. The
 lower bounds and the value at $n=4$ are formalized in Lean~4 with Mathlib. The theorems and their formal proofs were found by AI agents
 in a multi-agent research harness.
 \end{abstract}
@@ -156,14 +430,16 @@ the pair $(r,s)$.
 \emph{Formal verification and provenance.} Theorems~\ref{thm:43}, \ref{thm:1511},
 \ref{thm:6749} and~\ref{thm:n3} and the value $P_\F(4)=7$ are proved in Lean~4 with Mathlib (Section~\ref{sec:lean}). The theorems and their Lean proofs
 were found by AI agents in one run of a multi-agent harness; Section~\ref{sec:how} says how. The proof of
-Theorem~\ref{thm:43} is given in full in Section~\ref{sec:43}. The proofs of Theorems~\ref{thm:1511},
-\ref{thm:6749} and~\ref{thm:n3} are only described here, and no person has read them in full: their only complete proofs
+Theorem~\ref{thm:43} is given in full in Section~\ref{sec:43}. The proofs of Theorems~\ref{thm:1511}
+and~\ref{thm:6749} are certificates, which Appendices~\ref{app:1511} and~\ref{app:6749} print in full; a short
+script checks them with exact arithmetic, independently of Lean. The proof of Theorem~\ref{thm:n3} and the
+lower bound $P_\F(4)\ge7$ are only outlined here, and no person has read them in full: their only complete proofs
 are the Lean proofs. For this reason
 Section~\ref{sec:lean} prints the formal definitions and statements.
 
 \emph{Organization.} Section~\ref{sec:slices} sets up the identities between slices.
 Section~\ref{sec:43} proves Theorem~\ref{thm:43} and describes the proofs of Theorems~\ref{thm:1511}
-and~\ref{thm:6749}. Section~\ref{sec:n3} outlines the proof of
+and~\ref{thm:6749}; their certificates are in Appendices~\ref{app:1511} and~\ref{app:6749}. Section~\ref{sec:n3} outlines the proof of
 Theorem~\ref{thm:n3}, whose formal version is long. Section~\ref{sec:small} proves
 Corollary~\ref{cor:values} and makes some remarks, among them a border splitting at $n=4$ with $r+s=6$.
 
@@ -290,20 +566,20 @@ in the same way $n\le\dim\xi_c+\dim\omega_c$. Hence $4n\le3(r+s)$.
 \end{remark}
 
 \emph{On the proof of Theorem~\ref{thm:1511}.} Take five distinct indices; this needs $n\ge5$. The proof
-is a certificate: a list of $189$ inequalities with integer weights. They relate the widths $r$ and $s$, the
+is a certificate: a list of $189$ inequalities with positive integer weights. They relate the widths $r$ and $s$, the
 dimensions of sums of the column spaces of the slices at the five indices, and the ranks of the matrices
 $X_yY_u^{\top}$. Each inequality is of a kind used above: monotonicity and submodularity of dimension,
 \eqref{eq:span}, Sylvester's inequality, and the fact from the proof of Lemma~\ref{lem:excess} that the
 column space of $X_yY_u^{\top}$ lies in $\xi_y\cap\zeta_u$, for the slice system and for the transposed
 system. The weighted sum of the $189$ inequalities is $15n\le11(r+s)$. A linear-programming search by the
-agents found the certificate. We do not print it. The Lean file of Section~\ref{sec:lean} proves each of
+agents found the certificate. Appendix~\ref{app:1511} prints it. The Lean file of Section~\ref{sec:lean} proves each of
 the $189$ inequalities for every slice system and checks the weighted sum.
 
 \emph{On the proof of Theorem~\ref{thm:6749}.} The proof is a certificate of the same kind for seven
 distinct indices; this needs $n\ge7$. The symmetric group of the seven indices permutes the inequalities, so
 the certificate is stated for sums over orbits: it has $77$ inequalities between orbit sums, and their
 weighted sum is $67n\le49(r+s)$. A linear-programming search by the agents found it, and the Lean file of
-Section~\ref{sec:lean} proves it for every slice system. We do not print it.
+Section~\ref{sec:lean} proves it for every slice system. Appendix~\ref{app:6749} prints it.
 
 \section{Proof of Theorem~\ref{thm:n3}}\label{sec:n3}
 
@@ -535,6 +811,79 @@ arithmetic, and searched the literature for earlier bounds.
 The Lean files of the repository, the literature check for this note and the text of this note were
 prepared with AI assistance (Claude). Theorems~\ref{thm:43}, \ref{thm:1511}, \ref{thm:6749} and~\ref{thm:n3}
 are verified in Lean (Section~\ref{sec:lean}). The author takes responsibility for the content.
+
+\appendix
+
+\section{The certificate for Theorem~\ref{thm:1511}}\label{app:1511}
+
+Let $y_1,\dots,y_5\in[n]$ be distinct. For a word $w$ in the letters $A_1,\dots,A_5,C_1,\dots,C_5$, let $f(w)$
+be the dimension of the sum of the subspaces $\xi_{y_i}$ for the letters $A_i$ of $w$ and $\zeta_{y_i}$ for the
+letters $C_i$ of $w$. Let $g(w)$ be defined in the same way from the transposed system, with $\eta_{y_i}$ and
+$\omega_{y_i}$ (notation of Remark~\ref{rem:short}). For $i\ne j$ let $m_{ij}=\rk(X_{y_i}Y_{y_j}^{\top})$.
+
+Each line below gives a weight and an inequality. Every inequality holds for every slice system of widths
+$(r,s)$, for the following reasons.
+\begin{itemize}
+\item An inequality between values of $f$ only, or of $g$ only, is submodularity of dimension,
+  $f(u)+f(u')\le f(v)+f(v')$ where $u$ contains the letters of $v$ and $v'$ and $u'$ the common letters
+  (an empty word has value $0$), or monotonicity, $f(v)\le f(u)$ where $u$ contains the letters of $v$.
+\item $n\le f(A_iC_i)$ is \eqref{eq:span}, and $n\le g(A_iC_i)$ is its form for the transposed system.
+\item $m_{ij}+f(A_iC_j)\le f(A_i)+f(C_j)$ holds because the column space of $X_{y_i}Y_{y_j}^{\top}$ lies in
+  $\xi_{y_i}\cap\zeta_{y_j}$ (proof of Lemma~\ref{lem:excess}). In the same way
+  $m_{ij}+g(A_jC_i)\le g(A_j)+g(C_i)$, since the column space of
+  $Y_{y_j}X_{y_i}^{\top}=-W_{y_i}Z_{y_j}^{\top}$ lies in $\eta_{y_j}\cap\omega_{y_i}$.
+\item $f(A_i)+g(A_j)\le m_{ij}+r$ and $f(C_j)+g(C_i)\le m_{ij}+s$ are the two applications of Sylvester's
+  inequality in the proof of Lemma~\ref{lem:excess}, for $X_{y_i}Y_{y_j}^{\top}=-Z_{y_j}W_{y_i}^{\top}$.
+\end{itemize}
+Multiply each inequality by its weight, add, and divide by $13035$. Every value $f(w)$, $g(w)$ and $m_{ij}$
+then has a coefficient on the right side at least as large as on the left side, and the result is
+\[
+  \tfrac{15}{11}\,n+D\le r+s,
+\]
+where $D$ is a combination of values of $f$, $g$ and $m$ with nonnegative coefficients. These values are
+nonnegative, so $15n\le11(r+s)$. This proves Theorem~\ref{thm:1511}.
+
+{\footnotesize\raggedright
+\begin{multicols}{2}
+\begin{list}{}{\setlength{\labelwidth}{2.6em}\setlength{\leftmargin}{3em}\setlength{\labelsep}{0.4em}%
+  \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\topsep}{0pt}}
+\CertFive
+\end{list}
+\end{multicols}
+}
+
+\section{The certificate for Theorem~\ref{thm:6749}}\label{app:6749}
+
+Let $y_1,\dots,y_7\in[n]$ be distinct, and define $f$, $g$ and $m_{ij}$ as in Appendix~\ref{app:1511}, now
+with seven indices. A permutation $\pi$ of $\{1,\dots,7\}$ maps every inequality of the kinds listed there to
+an inequality of the same kind, so the average of an inequality over all $5040$ permutations also holds. For a
+word $w$, the average of $f(\pi w)$ over all $\pi$ depends only on the \emph{type} of $w$: the number of
+indices $i$ for which $w$ contains $A_i$ only, the number for which it contains $C_i$ only, and the number for
+which it contains both. So an averaged inequality is an inequality between the averages of $f$ and of $g$ over
+the words of each type, and the average $\bar m$ of the numbers $m_{ij}$ over all pairs $i\ne j$.
+
+The certificate has $77$ lines. In $71$ lines the inequality is a representative: the line stands for the
+average of this inequality over all permutations. The other six lines are inequalities between averages. In
+them, $\bar f(\mathsf{AC})$ is the average of $f(A_iC_i)$ over $i$, $\bar f(\mathsf{A{\cdot}C})$ the average
+of $f(A_iC_j)$ over $i\ne j$, $\bar f(\mathsf{A})$ and $\bar f(\mathsf{C})$ the averages of $f(A_i)$ and
+$f(C_i)$, and $\bar g$ is defined in the same way. These six lines are the averages of \eqref{eq:span}, of the
+two inclusions and of the two Sylvester bounds of Appendix~\ref{app:1511}.
+
+Multiply each line by its weight, add, and divide by $88641$. As in Appendix~\ref{app:1511}, the result is
+$\tfrac{67}{49}\,n+D\le r+s$ with $D\ge0$, so $67n\le49(r+s)$. This proves Theorem~\ref{thm:6749}.
+
+The directory \texttt{certificates} of the repository (tag \texttt{eccc-v1}) contains both certificates and
+the script \texttt{check\_certificates.py}. With exact rational arithmetic and without Lean, the script checks
+both weighted sums, and it recomputes each of the $71$ averaged inequalities from its representative.
+
+{\footnotesize\raggedright
+\begin{multicols}{2}
+\begin{list}{}{\setlength{\labelwidth}{3em}\setlength{\leftmargin}{3.4em}\setlength{\labelsep}{0.4em}%
+  \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\topsep}{0pt}}
+\CertSeven
+\end{list}
+\end{multicols}
+}
 
 \begin{thebibliography}{Mathlib}
 

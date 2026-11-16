@@ -35,8 +35,9 @@ files state the theorems in this form.
 
 ## Contents
 
-- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (9 pages: a full proof of
-  `4n/3`, a description of the certificates, an outline of `n + 3`, and the Lean statements verbatim).
+- **Paper:** [`paper/crossing-lower-bounds.pdf`](paper/crossing-lower-bounds.pdf) (13 pages: a full proof of
+  `4n/3`, the certificates of `15n/11` and `67n/49` in full, an outline of `n + 3`, and the Lean statements
+  verbatim).
 - **Statements to audit:** [`Challenge.lean`](Challenge.lean) (88 lines). It imports one Mathlib module and
   contains the two definitions and the seven statements, with `sorry`. [`Solution.lean`](Solution.lean)
   proves them from the files below.
@@ -48,6 +49,9 @@ files state the theorems in this form.
 - **Registry metadata:** [`comparator.json`](comparator.json), [`formalization.yaml`](formalization.yaml) and
   the [preflight workflow](.github/workflows/palomar-preflight.yml) for the
   [Palomar registry](https://palomar-registry.org/).
+- **Certificates:** [`certificates/`](certificates): the certificates of `15n/11` (189 inequalities) and `67n/49`
+  (77 averaged inequalities), and `check_certificates.py`, which checks both with exact rational arithmetic,
+  independently of Lean (`python3 certificates/check_certificates.py`).
 - **Border splitting at n = 4:** [`border/`](border) (data and an exact-arithmetic checker).
 
 ## Verify it yourself
@@ -99,8 +103,10 @@ matrix of operator Schmidt rank at most 3, while the exact value is `P(4) = 7`.
 - **Verified in Lean:** the seven statements, exactly as stated in `Challenge.lean`.
 - **Checked by hand:** the proof of `4n/3` (Section 3 of the paper), by the author's side and in an
   independent review of a draft, which also found the shorter proof in the paper.
-- **Lean only:** the proofs of `15n/11`, `67n/49`, `n + 3`, `P(4) >= 7`, `P(5) >= 8` and `P(6) >= 9`. The paper
-  describes or outlines them, but no person has read them in full.
+- **Certificate printed and checked by script:** `15n/11` and `67n/49`. The paper prints both certificates and
+  says why each inequality holds; `certificates/check_certificates.py` checks the weighted sums.
+- **Lean only:** the proofs of `n + 3`, `P(4) >= 7`, `P(5) >= 8` and `P(6) >= 9`. The paper outlines them, but no
+  person has read them in full.
 - **Checked by script:** the border identity at `n = 4`.
 - **Not formalized:** the translation between Naslund's tensor form and the matrix form (Section 1 of the
   paper), the upper bounds `P(3) <= 4` and `P(5) <= 11` (one paragraph in the paper), and the remarks.
